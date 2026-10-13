@@ -16,12 +16,12 @@ const LINK_DATA = {
     },
     // 5 video, dipilih acak setiap buka / balik ke web
     videoUrls: [
-        "https://sion-bio-web.pages.dev/bg1.mp4",
-        "https://sion-bio-web.pages.dev/bg2.mp4",
-        "https://sion-bio-web.pages.dev/bg3.mp4",
-        "https://sion-bio-web.pages.dev/bg4.mp4",
-        "https://sion-bio-web.pages.dev/bg5.mp4"
-    ],
+    "https://raw.githubusercontent.com/sionlimits-spec/shiriuka-database01/main/banner/banner01.mp4",
+    "https://raw.githubusercontent.com/sionlimits-spec/shiriuka-database01/main/banner/banner02.mp4",
+    "https://raw.githubusercontent.com/sionlimits-spec/shiriuka-database01/main/banner/banner03.mp4",
+    "https://raw.githubusercontent.com/sionlimits-spec/shiriuka-database01/main/banner/banner04.mp4",
+    "https://raw.githubusercontent.com/sionlimits-spec/shiriuka-database01/main/banner/banner05.mp4"
+],
     links: [
         {
             name: "TIKTOK YOU",
