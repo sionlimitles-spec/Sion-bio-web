@@ -25,6 +25,245 @@
             pointer-events: none;
         }
 
+        /* ==========================================
+           CONSENT / VERIFICATION SYSTEM
+           ========================================== */
+        #consent {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 10001;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            opacity: 1;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #consent.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        .consent-card {
+            width: 100%; max-width: 440px;
+            background: linear-gradient(145deg, rgba(15,15,15,0.98), rgba(25,25,25,0.98));
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 28px;
+            padding: 32px 26px 26px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06);
+            position: relative;
+            overflow: hidden;
+            animation: cardSlideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes cardSlideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Animated top border */
+        .consent-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: borderSweep 3s linear infinite;
+        }
+        @keyframes borderSweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .consent-icon-wrap {
+            display: flex; justify-content: center;
+            margin-bottom: 18px;
+            position: relative;
+        }
+        .consent-shield {
+            width: 68px; height: 68px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .consent-shield svg {
+            width: 100%; height: 100%;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.5));
+            animation: shieldPulse 2s ease-in-out infinite;
+        }
+        @keyframes shieldPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
+            50% { transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
+        }
+        .consent-shield::after {
+            content: '';
+            position: absolute; inset: -6px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: shieldRing 2.5s ease-out infinite;
+        }
+        @keyframes shieldRing {
+            0% { transform: scale(0.9); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .consent-title {
+            font-size: 20px; font-weight: 800;
+            text-align: center;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .consent-subtitle {
+            font-size: 12.5px; color: #a1a1aa;
+            text-align: center;
+            margin-bottom: 22px;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+        }
+
+        .consent-list {
+            display: flex; flex-direction: column; gap: 14px;
+            margin-bottom: 22px;
+        }
+        .consent-item {
+            display: flex; gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+        .consent-item:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.15);
+        }
+        .ci-icon {
+            width: 32px; height: 32px;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .ci-text { flex: 1; }
+        .ci-text strong {
+            display: block;
+            font-size: 13px; font-weight: 700;
+            color: #fff; margin-bottom: 3px;
+            letter-spacing: 0.3px;
+        }
+        .ci-text span {
+            display: block;
+            font-size: 11.5px; color: #888;
+            line-height: 1.45;
+        }
+
+        /* Checkbox */
+        .consent-checkbox {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            cursor: pointer;
+            margin-bottom: 18px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .consent-checkbox:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.18);
+        }
+        .consent-checkbox input { display: none; }
+        .checkbox-box {
+            width: 22px; height: 22px;
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .consent-checkbox input:checked + .checkbox-box {
+            background: #fff;
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+        .checkbox-box::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 7px;
+            width: 5px; height: 10px;
+            border: solid #000;
+            border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg) scale(0);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .consent-checkbox input:checked + .checkbox-box::after {
+            transform: rotate(45deg) scale(1);
+        }
+        .checkbox-label {
+            font-size: 12.5px; color: #d4d4d8;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Button */
+        .consent-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(145deg, #fff, #d4d4d8);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255,255,255,0.15);
+        }
+        .consent-btn::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.7s ease;
+        }
+        .consent-btn:hover::before { left: 150%; }
+        .consent-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(255,255,255,0.25);
+        }
+        .consent-btn:active { transform: translateY(0) scale(0.98); }
+        .consent-btn:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
+        /* Verifying state */
+        .consent-btn.verifying {
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            color: #fff;
+            cursor: wait;
+        }
+
+        /* Checkmark success */
+        .consent-card.verified .consent-shield svg {
+            stroke: #22c55e;
+            filter: drop-shadow(0 0 20px rgba(34,197,94,0.8));
+        }
+
+        .consent-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 10.5px;
+            color: #52525b;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+        }
+
         /* PIXEL LOADING */
         #loader {
             position: fixed; inset: 0; background: #000;
@@ -155,7 +394,6 @@
         .menu-btn:active { transform: scale(0.95); }
         .menu-btn svg { width: 22px; height: 22px; fill: #fff; }
 
-        /* CONTAINER */
         .container {
             position: relative; z-index: 1;
             width: 100%; max-width: 500px;
@@ -164,7 +402,6 @@
             animation: fadeIn 1s ease-out;
         }
 
-        /* PROFILE */
         .profile {
             display: none; flex-direction: column;
             align-items: center; text-align: center;
@@ -213,7 +450,6 @@
         }
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* ANIMATED NAME */
         .profile-name {
             font-size: 32px; font-weight: 900;
             letter-spacing: 6px; text-transform: uppercase;
@@ -262,7 +498,6 @@
         }
         @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* LINKS */
         .links { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .link-item {
             animation: fadeInUp 0.6s ease-out backwards;
@@ -270,7 +505,6 @@
             position: relative;
         }
 
-        /* MAIN BUTTON - BESAR */
         .btn {
             display: flex; align-items: center;
             width: 100%; padding: 16px 18px 16px 20px;
@@ -289,7 +523,6 @@
             min-height: 78px;
         }
 
-        /* ICON - BESAR */
         .btn .btn-icon {
             position: relative; z-index: 3;
             display: flex; align-items: center; justify-content: center;
@@ -318,7 +551,6 @@
             font-size: 17px;
         }
 
-        /* COPY BUTTON - BESAR */
         .copy-inline {
             width: 48px; height: 48px;
             flex-shrink: 0;
@@ -329,8 +561,7 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; z-index: 5;
-            padding: 0;
-            outline: none;
+            padding: 0; outline: none;
         }
         .copy-inline svg { width: 22px; height: 22px; fill: #a1a1aa; transition: all 0.3s ease; pointer-events: none; }
         .copy-inline:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); transform: scale(1.08); }
@@ -348,7 +579,6 @@
             100% { transform: scale(1); }
         }
 
-        /* BADGE */
         .badge {
             position: absolute;
             top: -10px; right: 26px;
@@ -365,7 +595,6 @@
         .badge-mod { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; box-shadow: 0 4px 14px rgba(168,85,247,0.6), 0 0 0 2px rgba(255,255,255,0.2); }
         .badge-vip { background: linear-gradient(135deg, #facc15, #eab308); color: #000; box-shadow: 0 4px 14px rgba(250,204,21,0.6), 0 0 0 2px rgba(255,255,255,0.2); }
 
-        /* Shine */
         .btn .shine {
             position: absolute; top: 0; left: -100%;
             width: 60%; height: 100%;
@@ -423,7 +652,6 @@
         }
         .link-item:hover .version-label { color: #a1a1aa; }
 
-        /* TOAST */
         .toast {
             position: fixed; bottom: 32px; left: 50%;
             transform: translateX(-50%) translateY(100px);
@@ -460,6 +688,8 @@
             .pixel-logo { width: 72px; height: 72px; }
             .pixel-block { width: 11px; height: 16px; }
             .pixel-loading-text { font-size: 15px; }
+            .consent-card { padding: 26px 20px 22px; }
+            .consent-title { font-size: 18px; }
         }
     </style>
 </head>
@@ -471,8 +701,64 @@
 
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- PIXEL ART LOADING -->
-    <div id="loader">
+    <!-- ==========================================
+         CONSENT / VERIFICATION SYSTEM
+         ========================================== -->
+    <div id="consent">
+        <div class="consent-card" id="consentCard">
+            <div class="consent-icon-wrap">
+                <div class="consent-shield">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="consent-title">Verifikasi Akses</div>
+            <div class="consent-subtitle">
+                Sebelum melanjutkan, mohon konfirmasi bahwa Anda pengunjung asli.
+            </div>
+
+            <div class="consent-list">
+                <div class="consent-item">
+                    <div class="ci-icon">🛡️</div>
+                    <div class="ci-text">
+                        <strong>Perlindungan Bot & AI Scraper</strong>
+                        <span>Verifikasi singkat untuk mencegah akses otomatis dari bot, crawler, dan AI scraper yang dapat menyalahgunakan konten.</span>
+                    </div>
+                </div>
+                <div class="consent-item">
+                    <div class="ci-icon">🔊</div>
+                    <div class="ci-text">
+                        <strong>Persetujuan Audio Browser</strong>
+                        <span>Sesuai kebijakan keamanan browser modern, kami memerlukan konfirmasi Anda sebelum memutar suara (sound effects & notifikasi).</span>
+                    </div>
+                </div>
+                <div class="consent-item">
+                    <div class="ci-icon">🔒</div>
+                    <div class="ci-text">
+                        <strong>Privasi Data Terjamin</strong>
+                        <span>Kami tidak mengumpulkan data pribadi. Statistik kunjungan hanya disimpan lokal di perangkat Anda (localStorage) dan tidak dikirim ke server manapun.</span>
+                    </div>
+                </div>
+            </div>
+
+            <label class="consent-checkbox" for="dontShowAgain">
+                <input type="checkbox" id="dontShowAgain">
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Jangan tampilkan lagi di perangkat ini</span>
+            </label>
+
+            <button id="consentBtn" class="consent-btn">Verifikasi & Lanjutkan</button>
+
+            <div class="consent-footer">
+                Dengan melanjutkan, Anda menyetujui pemrosesan lokal<br>untuk keperluan keamanan & audio.
+            </div>
+        </div>
+    </div>
+
+    <!-- PIXEL LOADING -->
+    <div id="loader" class="hide">
         <div class="pixel-stage">
             <div class="pixel-logo" id="loaderLogo">⚡</div>
             <div class="pixel-particles">
@@ -579,11 +865,9 @@
         document.body.style.background = theme.background || '#050505';
 
         // ==========================================================
-        //   AUDIO ENGINE - UPGRADED
+        //   AUDIO ENGINE
         // ==========================================================
-        let audioCtx = null, soundEnabled = true;
-        let masterGain = null;
-
+        let audioCtx = null, soundEnabled = true, masterGain = null;
         function ensureAudio() {
             if (!audioCtx) {
                 try {
@@ -598,8 +882,6 @@
             }
             return audioCtx;
         }
-
-        // Oscillator + envelope
         function tone(freq, dur, type = 'sine', vol = 0.15, delay = 0, detune = 0) {
             if (!soundEnabled) return;
             const ctx = ensureAudio(); if (!ctx) return;
@@ -614,8 +896,6 @@
             gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
             osc.start(t); osc.stop(t + dur);
         }
-
-        // Noise burst (untuk tekstur)
         function noise(dur = 0.1, vol = 0.05, delay = 0, filterFreq = 2000) {
             if (!soundEnabled) return;
             const ctx = ensureAudio(); if (!ctx) return;
@@ -636,8 +916,6 @@
             gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
             source.start(t); source.stop(t + dur);
         }
-
-        // Sweep freq (naik / turun)
         function sweep(freqStart, freqEnd, dur, type = 'sine', vol = 0.12, delay = 0) {
             if (!soundEnabled) return;
             const ctx = ensureAudio(); if (!ctx) return;
@@ -656,68 +934,70 @@
         // ==========================================================
         //   SOUND EFFECTS
         // ==========================================================
-        function soundHover() {
-            tone(1800, 0.05, 'sine', 0.05);
-            tone(2400, 0.03, 'sine', 0.03, 0.01);
-        }
-        function soundClick() {
-            tone(880, 0.08, 'square', 0.12);
-            tone(1320, 0.1, 'triangle', 0.08, 0.02);
-            noise(0.04, 0.04, 0, 3000);
-        }
+        function soundHover() { tone(1800, 0.05, 'sine', 0.05); tone(2400, 0.03, 'sine', 0.03, 0.01); }
+        function soundClick() { tone(880, 0.08, 'square', 0.12); tone(1320, 0.1, 'triangle', 0.08, 0.02); noise(0.04, 0.04, 0, 3000); }
         function soundConfirm() {
-            // Chord epic (3 nada + shimmer)
             tone(880, 0.12, 'sine', 0.14);
             tone(1108, 0.14, 'sine', 0.12, 0.05);
             tone(1320, 0.16, 'sine', 0.11, 0.10);
             tone(1760, 0.30, 'sine', 0.10, 0.18);
             tone(2200, 0.35, 'sine', 0.06, 0.25);
         }
-        // Pixel blip - UPGRADED (retro arcade)
-        function pixelBlip(index = 0) {
-            // Nada naik sesuai index
-            const baseFreq = 600 + (index * 25);
-            tone(baseFreq, 0.03, 'square', 0.06);
-            tone(baseFreq * 1.5, 0.02, 'square', 0.03, 0.015);
+        function soundVerifyStart() {
+            // Suara tech / verification start
+            tone(1200, 0.06, 'square', 0.08);
+            tone(1600, 0.06, 'square', 0.08, 0.08);
+            tone(2000, 0.08, 'square', 0.09, 0.16);
         }
-        // Loading complete - EPIC fanfare
-        function pixelComplete() {
-            // Bass boom
-            sweep(80, 40, 0.6, 'sine', 0.25);
-            // Melody naik 4 nada
-            tone(523, 0.12, 'square', 0.12);
-            tone(659, 0.12, 'square', 0.12, 0.10);
-            tone(784, 0.12, 'square', 0.12, 0.20);
-            tone(1046, 0.14, 'square', 0.13, 0.30);
-            // Chord final
-            tone(1318, 0.5, 'triangle', 0.14, 0.42);
-            tone(1568, 0.5, 'triangle', 0.10, 0.42);
-            tone(2093, 0.6, 'sine', 0.08, 0.42);
-            // Shimmer noise
-            noise(0.4, 0.04, 0.42, 5000);
-            // Sub boom
-            sweep(60, 30, 0.5, 'sine', 0.18, 0.42);
+        function soundVerifySuccess() {
+            // Chime sukses - 3 nada
+            tone(880, 0.15, 'sine', 0.14);
+            tone(1320, 0.18, 'sine', 0.12, 0.12);
+            tone(1760, 0.35, 'sine', 0.12, 0.24);
+            noise(0.2, 0.03, 0.24, 6000);
         }
-        // Loading tick alternatif (biar gak monoton)
         function pixelTick(step) {
             if (step % 4 === 0) {
-                // Setiap 4 langkah, nada lebih tebal
                 tone(1200, 0.05, 'square', 0.07);
                 tone(1800, 0.03, 'square', 0.04, 0.02);
             } else {
                 tone(900 + step * 20, 0.025, 'square', 0.05);
             }
         }
-
+        function pixelComplete() {
+            sweep(80, 40, 0.6, 'sine', 0.25);
+            tone(523, 0.12, 'square', 0.12);
+            tone(659, 0.12, 'square', 0.12, 0.10);
+            tone(784, 0.12, 'square', 0.12, 0.20);
+            tone(1046, 0.14, 'square', 0.13, 0.30);
+            tone(1318, 0.5, 'triangle', 0.14, 0.42);
+            tone(1568, 0.5, 'triangle', 0.10, 0.42);
+            tone(2093, 0.6, 'sine', 0.08, 0.42);
+            noise(0.4, 0.04, 0.42, 5000);
+            sweep(60, 30, 0.5, 'sine', 0.18, 0.42);
+        }
         function vibrate(ms = 40) { if (navigator.vibrate) navigator.vibrate(ms); }
 
         // ==========================================================
-        //   PIXEL LOADING
+        //   CONSENT SYSTEM
         // ==========================================================
-        (function pixelLoader() {
+        const CONSENT_KEY = 'shiriuka_consent_v1';
+
+        function hasConsent() {
+            try { return localStorage.getItem(CONSENT_KEY) === 'true'; }
+            catch(e) { return false; }
+        }
+        function saveConsent() {
+            try { localStorage.setItem(CONSENT_KEY, 'true'); }
+            catch(e) {}
+        }
+
+        function startPixelLoader() {
+            document.getElementById('loader').classList.remove('hide');
             const bar = document.getElementById('pixelBar');
             const percentEl = document.getElementById('pixelPercent');
             const totalBlocks = 20;
+            bar.innerHTML = '';
             for (let i = 0; i < totalBlocks; i++) {
                 const b = document.createElement('div');
                 b.className = 'pixel-block';
@@ -725,24 +1005,6 @@
             }
             const blocks = bar.querySelectorAll('.pixel-block');
             let current = 0;
-            let audioUnlocked = false;
-
-            // Unlock audio pada interaksi pertama
-            const unlockAudio = () => {
-                if (!audioUnlocked) {
-                    ensureAudio();
-                    audioUnlocked = true;
-                }
-                document.removeEventListener('touchstart', unlockAudio);
-                document.removeEventListener('click', unlockAudio);
-                document.removeEventListener('keydown', unlockAudio);
-            };
-            document.addEventListener('touchstart', unlockAudio, { passive: true });
-            document.addEventListener('click', unlockAudio);
-            document.addEventListener('keydown', unlockAudio);
-
-            // Auto-attempt play (kadang berhasil di desktop)
-            setTimeout(unlockAudio, 100);
 
             const interval = setInterval(() => {
                 if (current >= totalBlocks) {
@@ -754,8 +1016,7 @@
                 }
                 blocks[current].classList.add(current > 15 ? 'active-2' : 'active');
                 current++;
-                const percent = Math.round((current / totalBlocks) * 100);
-                percentEl.textContent = percent + '%';
+                percentEl.textContent = Math.round((current / totalBlocks) * 100) + '%';
                 pixelTick(current);
             }, 120);
 
@@ -773,7 +1034,63 @@
                     () => { loaderLogo.textContent = '⚡'; }
                 );
             }
-        })();
+        }
+
+        function showConsent() {
+            const consentEl = document.getElementById('consent');
+            const consentBtn = document.getElementById('consentBtn');
+            const consentCard = document.getElementById('consentCard');
+            const checkbox = document.getElementById('dontShowAgain');
+            const shieldSvg = consentCard.querySelector('.consent-shield svg');
+            const originalSvgContent = shieldSvg.innerHTML;
+
+            consentBtn.addEventListener('click', () => {
+                // Unlock audio
+                ensureAudio();
+                soundVerifyStart();
+                vibrate(30);
+
+                // Simulasi verifikasi 1.2 detik
+                consentBtn.classList.add('verifying');
+                consentBtn.textContent = 'MEMVERIFIKASI...';
+                consentBtn.disabled = true;
+
+                // Ubah shield jadi spinner
+                shieldSvg.innerHTML = '<circle cx="12" cy="12" r="9" stroke-dasharray="15 5" stroke-linecap="round"/>';
+
+                setTimeout(() => {
+                    // Simpan consent kalau checkbox dicentang
+                    if (checkbox.checked) saveConsent();
+
+                    // Sukses
+                    soundVerifySuccess();
+                    vibrate([40, 60, 40]);
+                    consentCard.classList.add('verified');
+                    shieldSvg.innerHTML = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4" stroke-dasharray="20" stroke-dashoffset="0"/>';
+                    consentBtn.textContent = '✓ TERVERIFIKASI';
+                    consentBtn.style.background = 'linear-gradient(145deg, #22c55e, #16a34a)';
+                    consentBtn.style.color = '#fff';
+
+                    // Hide consent + start loader
+                    setTimeout(() => {
+                        consentEl.classList.add('hide');
+                        setTimeout(() => {
+                            startPixelLoader();
+                        }, 400);
+                    }, 700);
+                }, 1200);
+            });
+        }
+
+        // Init consent flow
+        if (hasConsent()) {
+            // Skip consent - langsung loading
+            // Unlock audio best-effort
+            setTimeout(() => { ensureAudio(); }, 100);
+            startPixelLoader();
+        } else {
+            showConsent();
+        }
 
         // ==========================================================
         //   BACKGROUND VIDEO
@@ -900,26 +1217,23 @@
 
             copyBtn.addEventListener('click', (e) => {
                 e.preventDefault(); e.stopPropagation();
-                const doCopy = () => {
-                    navigator.clipboard.writeText(link.url).then(() => {
-                        copyBtn.classList.add('copied');
-                        copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-                        showToast('📋 Link berhasil di-copy!');
-                        soundConfirm();
-                        vibrate(50);
-                        setTimeout(() => {
-                            copyBtn.classList.remove('copied');
-                            copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
-                        }, 2000);
-                    }).catch(() => {
-                        const ta = document.createElement('textarea');
-                        ta.value = link.url; document.body.appendChild(ta);
-                        ta.select(); document.execCommand('copy');
-                        document.body.removeChild(ta);
-                        showToast('📋 Link berhasil di-copy!');
-                    });
-                };
-                doCopy();
+                navigator.clipboard.writeText(link.url).then(() => {
+                    copyBtn.classList.add('copied');
+                    copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+                    showToast('📋 Link berhasil di-copy!');
+                    soundConfirm();
+                    vibrate(50);
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+                    }, 2000);
+                }).catch(() => {
+                    const ta = document.createElement('textarea');
+                    ta.value = link.url; document.body.appendChild(ta);
+                    ta.select(); document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast('📋 Link berhasil di-copy!');
+                });
             });
 
             a.appendChild(iconWrap);
@@ -944,8 +1258,7 @@
                 if (!confirmState) {
                     e.preventDefault();
                     confirmState = true;
-                    soundClick();
-                    vibrate(30);
+                    soundClick(); vibrate(30);
                     const rect = a.getBoundingClientRect();
                     const x = (e.clientX || rect.left + rect.width / 2) - rect.left;
                     const y = (e.clientY || rect.top + rect.height / 2) - rect.top;
