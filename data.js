@@ -3,27 +3,25 @@
 // ==========================================
 
 const LINK_DATA = {
-    // ---- TEMA (opsional, bisa diganti) ----
     theme: {
-        background: "#050505",     // Warna latar
-        accent: "#ffffff"          // Warna glow utama
+        background: "#050505",
+        accent: "#ffffff"
     },
-
-    // ---- PROFILE (opsional, bisa dimatikan) ----
     profile: {
         enabled: true,
-        avatar: "https://ui-avatars.com/api/?name=SION&background=000&color=fff&size=200",
+        avatar: "https://d.top4top.io/p_3938a8hba0.png",
         name: "SHIRIUKA",
-        bio: "Welcome to my link ✦"
+        bio: "Welcome to my link ✦",
+        typing: true
     },
-
-    // ---- VIDEO ----
     videoUrl: "https://h.top4top.io/m_3938u7n460.mp4",
-
-    // ---- DAFTAR LINK ----
-    // icon: bisa emoji (🎵 🔗 💰) atau link gambar
     links: [
-        { name: "TIKTOK YOU", url: "https://www.mediafire.com/file/q0ayd515477cywm/TikTok_You-4.4-(46.8.3)+(1).apk/file", icon: "🎵" },
-        
+        {
+            name: "TIKTOK YOU",
+            url: "https://www.mediafire.com/file/q0ayd515477cywm/TikTok_You-4.4-(46.8.3)+(1).apk/file",
+            icon: "https://d.top4top.io/p_39389vhb90.png",
+            version: "v4.4 (46.8.3) • MOD",
+            badge: "NEW"
+        }
     ]
 };
