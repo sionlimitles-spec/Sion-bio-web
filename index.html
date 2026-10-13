@@ -13,11 +13,27 @@
             background-color: var(--bg); color: #fff;
             min-height: 100vh; overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center;
+            transition: background 0.5s ease;
         }
 
         /* FULLSCREEN VIDEO BACKGROUND */
-        .bg-video-wrap { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
-        .bg-video-wrap video { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: contrast(1.1) brightness(0.7); }
+        .bg-video-wrap {
+            position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none;
+            background:
+                radial-gradient(circle at 50% 40%, rgba(120, 60, 180, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 30% 70%, rgba(220, 60, 100, 0.15) 0%, transparent 50%),
+                #050505;
+        }
+        .bg-video-wrap video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            filter: contrast(1.1) brightness(0.7);
+            transition: opacity 1.2s ease;
+        }
+        .bg-video-wrap video.active { opacity: 0.35; }
+
         .bg-video-overlay {
             position: fixed; inset: 0; z-index: -1;
             background: radial-gradient(circle at 50% 0%, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0.95) 70%),
@@ -25,9 +41,7 @@
             pointer-events: none;
         }
 
-        /* ==========================================
-           CONSENT / VERIFICATION SYSTEM
-           ========================================== */
+        /* CONSENT */
         #consent {
             position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.75);
@@ -36,7 +50,6 @@
             z-index: 10001;
             display: flex; align-items: center; justify-content: center;
             padding: 20px;
-            opacity: 1;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
         #consent.hide { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -56,12 +69,8 @@
             from { opacity: 0; transform: translateY(40px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        /* Animated top border */
         .consent-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right: 0;
-            height: 2px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
             background: linear-gradient(90deg, transparent, #fff, transparent);
             animation: borderSweep 3s linear infinite;
         }
@@ -69,22 +78,11 @@
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-
-        .consent-icon-wrap {
-            display: flex; justify-content: center;
-            margin-bottom: 18px;
-            position: relative;
-        }
-        .consent-shield {
-            width: 68px; height: 68px;
-            display: flex; align-items: center; justify-content: center;
-            position: relative;
-        }
+        .consent-icon-wrap { display: flex; justify-content: center; margin-bottom: 18px; position: relative; }
+        .consent-shield { width: 68px; height: 68px; display: flex; align-items: center; justify-content: center; position: relative; }
         .consent-shield svg {
             width: 100%; height: 100%;
-            fill: none;
-            stroke: #fff;
-            stroke-width: 2;
+            fill: none; stroke: #fff; stroke-width: 2;
             filter: drop-shadow(0 0 12px rgba(255,255,255,0.5));
             animation: shieldPulse 2s ease-in-out infinite;
         }
@@ -93,9 +91,7 @@
             50% { transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
         }
         .consent-shield::after {
-            content: '';
-            position: absolute; inset: -6px;
-            border-radius: 50%;
+            content: ''; position: absolute; inset: -6px; border-radius: 50%;
             border: 1px solid rgba(255,255,255,0.3);
             animation: shieldRing 2.5s ease-out infinite;
         }
@@ -103,166 +99,73 @@
             0% { transform: scale(0.9); opacity: 1; }
             100% { transform: scale(1.5); opacity: 0; }
         }
-
-        .consent-title {
-            font-size: 20px; font-weight: 800;
-            text-align: center;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-            color: #fff;
-        }
-        .consent-subtitle {
-            font-size: 12.5px; color: #a1a1aa;
-            text-align: center;
-            margin-bottom: 22px;
-            line-height: 1.5;
-            letter-spacing: 0.3px;
-        }
-
-        .consent-list {
-            display: flex; flex-direction: column; gap: 14px;
-            margin-bottom: 22px;
-        }
+        .consent-title { font-size: 20px; font-weight: 800; text-align: center; letter-spacing: 1px; margin-bottom: 6px; color: #fff; }
+        .consent-subtitle { font-size: 12.5px; color: #a1a1aa; text-align: center; margin-bottom: 22px; line-height: 1.5; letter-spacing: 0.3px; }
+        .consent-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
         .consent-item {
-            display: flex; gap: 12px;
-            padding: 12px 14px;
+            display: flex; gap: 12px; padding: 12px 14px;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 14px;
-            transition: all 0.3s ease;
+            border-radius: 14px; transition: all 0.3s ease;
         }
-        .consent-item:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.15);
-        }
-        .ci-icon {
-            width: 32px; height: 32px;
-            flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
-        }
+        .consent-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+        .ci-icon { width: 32px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
         .ci-text { flex: 1; }
-        .ci-text strong {
-            display: block;
-            font-size: 13px; font-weight: 700;
-            color: #fff; margin-bottom: 3px;
-            letter-spacing: 0.3px;
-        }
-        .ci-text span {
-            display: block;
-            font-size: 11.5px; color: #888;
-            line-height: 1.45;
-        }
-
-        /* Checkbox */
+        .ci-text strong { display: block; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 3px; letter-spacing: 0.3px; }
+        .ci-text span { display: block; font-size: 11.5px; color: #888; line-height: 1.45; }
         .consent-checkbox {
             display: flex; align-items: center; gap: 12px;
             padding: 12px 14px;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
-            cursor: pointer;
-            margin-bottom: 18px;
-            transition: all 0.3s ease;
-            user-select: none;
+            border-radius: 14px; cursor: pointer; margin-bottom: 18px;
+            transition: all 0.3s ease; user-select: none;
         }
-        .consent-checkbox:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.18);
-        }
+        .consent-checkbox:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); }
         .consent-checkbox input { display: none; }
         .checkbox-box {
-            width: 22px; height: 22px;
-            flex-shrink: 0;
+            width: 22px; height: 22px; flex-shrink: 0;
             border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 6px;
-            position: relative;
+            border-radius: 6px; position: relative;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .consent-checkbox input:checked + .checkbox-box {
-            background: #fff;
-            border-color: #fff;
+            background: #fff; border-color: #fff;
             box-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
         .checkbox-box::after {
-            content: '';
-            position: absolute;
-            top: 2px; left: 7px;
+            content: ''; position: absolute; top: 2px; left: 7px;
             width: 5px; height: 10px;
-            border: solid #000;
-            border-width: 0 2.5px 2.5px 0;
+            border: solid #000; border-width: 0 2.5px 2.5px 0;
             transform: rotate(45deg) scale(0);
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .consent-checkbox input:checked + .checkbox-box::after {
-            transform: rotate(45deg) scale(1);
-        }
-        .checkbox-label {
-            font-size: 12.5px; color: #d4d4d8;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-
-        /* Button */
+        .consent-checkbox input:checked + .checkbox-box::after { transform: rotate(45deg) scale(1); }
+        .checkbox-label { font-size: 12.5px; color: #d4d4d8; font-weight: 500; letter-spacing: 0.3px; }
         .consent-btn {
-            width: 100%;
-            padding: 16px 24px;
+            width: 100%; padding: 16px 24px;
             background: linear-gradient(145deg, #fff, #d4d4d8);
-            color: #000;
-            border: none;
-            border-radius: 50px;
+            color: #000; border: none; border-radius: 50px;
             font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
+            font-size: 15px; font-weight: 800; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             box-shadow: 0 10px 30px rgba(255,255,255,0.15);
         }
         .consent-btn::before {
-            content: '';
-            position: absolute; top: 0; left: -100%;
+            content: ''; position: absolute; top: 0; left: -100%;
             width: 60%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(0,0,0,0.15), transparent);
-            transform: skewX(-20deg);
-            transition: left 0.7s ease;
+            transform: skewX(-20deg); transition: left 0.7s ease;
         }
         .consent-btn:hover::before { left: 150%; }
-        .consent-btn:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(255,255,255,0.25);
-        }
+        .consent-btn:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 20px 40px rgba(255,255,255,0.25); }
         .consent-btn:active { transform: translateY(0) scale(0.98); }
-        .consent-btn:disabled {
-            opacity: 0.6;
-            cursor: wait;
-            transform: none;
-        }
-
-        /* Verifying state */
-        .consent-btn.verifying {
-            background: linear-gradient(145deg, #22c55e, #16a34a);
-            color: #fff;
-            cursor: wait;
-        }
-
-        /* Checkmark success */
-        .consent-card.verified .consent-shield svg {
-            stroke: #22c55e;
-            filter: drop-shadow(0 0 20px rgba(34,197,94,0.8));
-        }
-
-        .consent-footer {
-            margin-top: 16px;
-            text-align: center;
-            font-size: 10.5px;
-            color: #52525b;
-            letter-spacing: 0.5px;
-            line-height: 1.5;
-        }
+        .consent-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+        .consent-btn.verifying { background: linear-gradient(145deg, #22c55e, #16a34a); color: #fff; cursor: wait; }
+        .consent-card.verified .consent-shield svg { stroke: #22c55e; filter: drop-shadow(0 0 20px rgba(34,197,94,0.8)); }
+        .consent-footer { margin-top: 16px; text-align: center; font-size: 10.5px; color: #52525b; letter-spacing: 0.5px; line-height: 1.5; }
 
         /* PIXEL LOADING */
         #loader {
@@ -276,8 +179,7 @@
         .pixel-stage { display: flex; flex-direction: column; align-items: center; gap: 28px; }
         .pixel-logo {
             width: 84px; height: 84px;
-            image-rendering: pixelated;
-            position: relative;
+            image-rendering: pixelated; position: relative;
             animation: pixelBounce 1s steps(2) infinite;
         }
         .pixel-logo img {
@@ -309,8 +211,7 @@
         }
         .pixel-loading-text {
             font-family: 'Press Start 2P', monospace;
-            font-size: 18px; color: #fff;
-            letter-spacing: 3px;
+            font-size: 18px; color: #fff; letter-spacing: 3px;
             text-shadow: 3px 3px 0 #000, 0 0 15px rgba(255,255,255,0.6);
             animation: pixelTextBlink 1s steps(2) infinite;
         }
@@ -339,8 +240,7 @@
         }
         .pixel-percent {
             font-family: 'Press Start 2P', monospace;
-            font-size: 13px; color: #fff;
-            letter-spacing: 1px;
+            font-size: 13px; color: #fff; letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
@@ -390,10 +290,129 @@
             border: 1px solid rgba(255,255,255,0.08);
             display: flex; justify-content: center; align-items: center;
             cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            position: relative;
         }
         .menu-btn:active { transform: scale(0.95); }
+        .menu-btn.open { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
         .menu-btn svg { width: 22px; height: 22px; fill: #fff; }
 
+        /* MENU POPUP */
+        .menu-popup {
+            position: fixed;
+            top: 76px;
+            right: 18px;
+            width: 240px;
+            background: linear-gradient(145deg, rgba(20,20,20,0.98), rgba(30,30,30,0.98));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06);
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transform-origin: top right;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .menu-popup.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .menu-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+        .menu-item:hover { background: rgba(255,255,255,0.08); }
+        .menu-item:active { background: rgba(255,255,255,0.15); transform: scale(0.98); }
+        .menu-item .mi-icon {
+            width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .menu-item .mi-label { flex: 1; }
+        .menu-item .mi-toggle {
+            width: 36px; height: 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .menu-item .mi-toggle::after {
+            content: ''; position: absolute;
+            top: 2px; left: 2px;
+            width: 16px; height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .menu-item.active .mi-toggle { background: #22c55e; }
+        .menu-item.active .mi-toggle::after { transform: translateX(16px); }
+        .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 6px 10px; }
+        .menu-header {
+            padding: 10px 14px 6px;
+            font-size: 10px; font-weight: 800;
+            letter-spacing: 2px; color: #52525b;
+            text-transform: uppercase;
+        }
+
+        /* INFO MODAL */
+        .info-modal {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 99998;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            opacity: 0; visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .info-modal.show { opacity: 1; visibility: visible; }
+        .info-card {
+            width: 100%; max-width: 380px;
+            background: linear-gradient(145deg, rgba(20,20,20,0.98), rgba(30,30,30,0.98));
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 26px 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            animation: cardSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .info-card h3 {
+            font-size: 18px; font-weight: 800;
+            margin-bottom: 16px; letter-spacing: 1px; color: #fff;
+        }
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 13px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .label { color: #a1a1aa; font-weight: 500; }
+        .info-row .value { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .info-close {
+            width: 100%; margin-top: 18px;
+            padding: 14px;
+            background: linear-gradient(145deg, #fff, #d4d4d8);
+            color: #000; border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px; font-weight: 800;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .info-close:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
+
+        /* CONTAINER */
         .container {
             position: relative; z-index: 1;
             width: 100%; max-width: 500px;
@@ -426,8 +445,7 @@
         }
         @keyframes spinRing { to { transform: rotate(360deg); } }
         .avatar-wrapper::before {
-            content: '';
-            position: absolute; inset: -12px;
+            content: ''; position: absolute; inset: -12px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
             animation: glowBreath 3s ease-in-out infinite;
@@ -517,12 +535,9 @@
             font-weight: 700; font-size: 17px; letter-spacing: 1px;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 15px 30px rgba(0,0,0,0.5);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            cursor: pointer; user-select: none;
-            gap: 14px;
-            min-height: 78px;
+            position: relative; cursor: pointer; user-select: none;
+            gap: 14px; min-height: 78px;
         }
-
         .btn .btn-icon {
             position: relative; z-index: 3;
             display: flex; align-items: center; justify-content: center;
@@ -532,29 +547,19 @@
             pointer-events: none;
             font-size: 28px;
         }
-        .btn .btn-icon img {
-            width: 100%; height: 100%;
-            object-fit: contain;
-            display: block;
-            border-radius: 10px;
-        }
-
+        .btn .btn-icon img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 10px; }
         .btn .btn-text {
             position: relative; z-index: 3;
             flex: 1;
             transition: all 0.3s ease;
             pointer-events: none;
             text-align: left;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             font-size: 17px;
         }
-
         .copy-inline {
             width: 48px; height: 48px;
-            flex-shrink: 0;
-            border-radius: 50%;
+            flex-shrink: 0; border-radius: 50%;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center;
@@ -578,15 +583,12 @@
             50% { transform: scale(1.5); }
             100% { transform: scale(1); }
         }
-
         .badge {
             position: absolute;
             top: -10px; right: 26px;
             padding: 5px 14px 5px 16px;
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            z-index: 5;
+            font-size: 11px; font-weight: 900;
+            letter-spacing: 2px; z-index: 5;
             text-transform: uppercase;
             clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%);
         }
@@ -601,12 +603,10 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
             transform: skewX(-20deg);
             transition: left 0.7s ease;
-            z-index: 1;
-            pointer-events: none;
+            z-index: 1; pointer-events: none;
             border-radius: 60px;
         }
         .btn:hover .shine { left: 150%; }
-
         .btn:hover {
             background: linear-gradient(145deg, #fff, #d4d4d8);
             color: #000;
@@ -616,7 +616,6 @@
         }
         .btn:hover .copy-inline { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.15); }
         .btn:hover .copy-inline svg { fill: #000; }
-
         .btn.confirm {
             background: linear-gradient(145deg, #fff, #e5e5e5) !important;
             color: #000 !important;
@@ -626,7 +625,6 @@
         }
         .btn.confirm .copy-inline { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.15); }
         .btn.confirm .copy-inline svg { fill: #000; }
-
         @keyframes shakeConfirm {
             0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-5px); }
@@ -634,7 +632,6 @@
             60% { transform: translateX(-4px); }
             80% { transform: translateX(4px); }
         }
-
         .ripple {
             position: absolute; border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
@@ -667,6 +664,46 @@
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
+        /* LIGHT MODE */
+        body.light-mode { --bg: #f5f5f5; color: #111; }
+        body.light-mode .profile-name {
+            background: linear-gradient(90deg, #111 0%, #666 25%, #111 50%, #666 75%, #111 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; background-clip: text;
+        }
+        body.light-mode .profile-bio,
+        body.light-mode .version-label { color: #666; }
+        body.light-mode .visitor-counter,
+        body.light-mode .search-box,
+        body.light-mode .clock-display,
+        body.light-mode .menu-btn {
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.08);
+        }
+        body.light-mode .search-box input,
+        body.light-mode .clock-display { color: #111; }
+        body.light-mode .search-box svg,
+        body.light-mode .menu-btn svg { fill: #444; }
+        body.light-mode .btn {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
+            border-color: rgba(0,0,0,0.08);
+            color: #111;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 15px 30px rgba(0,0,0,0.1);
+        }
+        body.light-mode .btn:hover { background: linear-gradient(145deg, #111, #333); color: #fff; }
+        body.light-mode .btn:hover .copy-inline { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+        body.light-mode .btn:hover .copy-inline svg { fill: #fff; }
+        body.light-mode .copy-inline { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
+        body.light-mode .copy-inline svg { fill: #666; }
+        body.light-mode .bg-video-overlay {
+            background: radial-gradient(circle at 50% 0%, rgba(245,245,245,0.5) 0%, rgba(245,245,245,0.95) 70%),
+                        linear-gradient(180deg, rgba(245,245,245,0.6) 0%, rgba(245,245,245,0.9) 50%, rgba(245,245,245,1) 100%);
+        }
+        body.light-mode .top-nav {
+            background: linear-gradient(to bottom, rgba(245,245,245,0.95), transparent);
+        }
+        body.light-mode .bg-video-wrap video { filter: contrast(1) brightness(1) invert(0); }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -690,20 +727,19 @@
             .pixel-loading-text { font-size: 15px; }
             .consent-card { padding: 26px 20px 22px; }
             .consent-title { font-size: 18px; }
+            .menu-popup { width: 220px; right: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- FULLSCREEN VIDEO BACKGROUND -->
-    <div class="bg-video-wrap"><video id="bgVideo" autoplay loop muted playsinline></video></div>
+    <!-- FULLSCREEN VIDEO BACKGROUND - MULTI VIDEO -->
+    <div class="bg-video-wrap" id="bgVideoWrap"></div>
     <div class="bg-video-overlay"></div>
 
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- ==========================================
-         CONSENT / VERIFICATION SYSTEM
-         ========================================== -->
+    <!-- CONSENT -->
     <div id="consent">
         <div class="consent-card" id="consentCard">
             <div class="consent-icon-wrap">
@@ -715,10 +751,7 @@
                 </div>
             </div>
             <div class="consent-title">Verifikasi Akses</div>
-            <div class="consent-subtitle">
-                Sebelum melanjutkan, mohon konfirmasi bahwa Anda pengunjung asli.
-            </div>
-
+            <div class="consent-subtitle">Sebelum melanjutkan, mohon konfirmasi bahwa Anda pengunjung asli.</div>
             <div class="consent-list">
                 <div class="consent-item">
                     <div class="ci-icon">🛡️</div>
@@ -742,18 +775,13 @@
                     </div>
                 </div>
             </div>
-
             <label class="consent-checkbox" for="dontShowAgain">
                 <input type="checkbox" id="dontShowAgain">
                 <span class="checkbox-box"></span>
                 <span class="checkbox-label">Jangan tampilkan lagi di perangkat ini</span>
             </label>
-
             <button id="consentBtn" class="consent-btn">Verifikasi & Lanjutkan</button>
-
-            <div class="consent-footer">
-                Dengan melanjutkan, Anda menyetujui pemrosesan lokal<br>untuk keperluan keamanan & audio.
-            </div>
+            <div class="consent-footer">Dengan melanjutkan, Anda menyetujui pemrosesan lokal<br>untuk keperluan keamanan & audio.</div>
         </div>
     </div>
 
@@ -793,6 +821,76 @@
         </div>
     </div>
 
+    <!-- MENU POPUP -->
+    <div class="menu-popup" id="menuPopup">
+        <div class="menu-header">Pengaturan</div>
+        <div class="menu-item" id="miRandomVideo">
+            <div class="mi-icon">🎲</div>
+            <div class="mi-label">Ganti Background</div>
+        </div>
+        <div class="menu-item active" id="miSoundToggle">
+            <div class="mi-icon">🔊</div>
+            <div class="mi-label">Sound Effect</div>
+            <div class="mi-toggle"></div>
+        </div>
+        <div class="menu-item" id="miThemeToggle">
+            <div class="mi-icon">🌙</div>
+            <div class="mi-label">Dark Mode</div>
+            <div class="mi-toggle" id="themeToggleDot"></div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-header">Aksi</div>
+        <div class="menu-item" id="miShare">
+            <div class="mi-icon">🔗</div>
+            <div class="mi-label">Bagikan Halaman</div>
+        </div>
+        <div class="menu-item" id="miCopyUrl">
+            <div class="mi-icon">📋</div>
+            <div class="mi-label">Copy URL Web</div>
+        </div>
+        <div class="menu-item" id="miScrollTop">
+            <div class="mi-icon">⬆️</div>
+            <div class="mi-label">Scroll ke Atas</div>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item" id="miInfo">
+            <div class="mi-icon">ℹ️</div>
+            <div class="mi-label">Info Halaman</div>
+        </div>
+    </div>
+
+    <!-- INFO MODAL -->
+    <div class="info-modal" id="infoModal">
+        <div class="info-card">
+            <h3>ℹ️ Info Halaman</h3>
+            <div class="info-row">
+                <span class="label">Nama Web</span>
+                <span class="value" id="infoWebName">SHIRIUKA</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Versi</span>
+                <span class="value">v2.0.0</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Total Link</span>
+                <span class="value" id="infoTotalLinks">0</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Kunjungan Anda</span>
+                <span class="value" id="infoVisitCount">0</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Status Video</span>
+                <span class="value" id="infoVideoStatus">-</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Status Sound</span>
+                <span class="value" id="infoSoundStatus">ON</span>
+            </div>
+            <button class="info-close" id="infoClose">Tutup</button>
+        </div>
+    </div>
+
     <div class="container">
         <div class="profile" id="profileSection">
             <div class="avatar-wrapper">
@@ -811,7 +909,6 @@
                 <span id="visitorCount">0</span> views
             </div>
         </div>
-
         <div class="links" id="linksContainer"></div>
     </div>
 
@@ -827,13 +924,7 @@
             if (url.startsWith('data:') || url.startsWith('blob:')) return [url];
             const clean = url.replace(/^https?:\/\//, '');
             const encoded = encodeURIComponent(url);
-            return [
-                url,
-                'https://images.weserv.nl/?url=' + clean,
-                'https://api.allorigins.win/raw?url=' + encoded,
-                'https://corsproxy.io/?' + encoded,
-                'https://api.codetabs.com/v1/proxy?quest=' + encoded
-            ];
+            return [url, 'https://images.weserv.nl/?url=' + clean, 'https://api.allorigins.win/raw?url=' + encoded, 'https://corsproxy.io/?' + encoded, 'https://api.codetabs.com/v1/proxy?quest=' + encoded];
         }
         function loadImageWithFallback(url, onSuccess, onError) {
             const proxies = buildProxyList(url);
@@ -845,8 +936,7 @@
                 let done = false;
                 const timer = setTimeout(() => { if (!done) { done = true; tryNext(); } }, 5000);
                 img.onload = () => {
-                    if (done) return; done = true;
-                    clearTimeout(timer);
+                    if (done) return; done = true; clearTimeout(timer);
                     if (img.naturalWidth < 5) { tryNext(); return; }
                     onSuccess(testUrl);
                 };
@@ -877,9 +967,7 @@
                     masterGain.connect(audioCtx.destination);
                 } catch(e) { soundEnabled = false; }
             }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume().catch(() => {});
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
             return audioCtx;
         }
         function tone(freq, dur, type = 'sine', vol = 0.15, delay = 0, detune = 0) {
@@ -906,8 +994,7 @@
             const source = ctx.createBufferSource();
             source.buffer = buffer;
             const filter = ctx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.value = filterFreq;
+            filter.type = 'lowpass'; filter.frequency.value = filterFreq;
             const gain = ctx.createGain();
             source.connect(filter); filter.connect(gain); gain.connect(masterGain || ctx.destination);
             const t = ctx.currentTime + delay;
@@ -931,66 +1018,36 @@
             osc.start(t); osc.stop(t + dur);
         }
 
-        // ==========================================================
-        //   SOUND EFFECTS
-        // ==========================================================
         function soundHover() { tone(1800, 0.05, 'sine', 0.05); tone(2400, 0.03, 'sine', 0.03, 0.01); }
         function soundClick() { tone(880, 0.08, 'square', 0.12); tone(1320, 0.1, 'triangle', 0.08, 0.02); noise(0.04, 0.04, 0, 3000); }
         function soundConfirm() {
-            tone(880, 0.12, 'sine', 0.14);
-            tone(1108, 0.14, 'sine', 0.12, 0.05);
-            tone(1320, 0.16, 'sine', 0.11, 0.10);
-            tone(1760, 0.30, 'sine', 0.10, 0.18);
+            tone(880, 0.12, 'sine', 0.14); tone(1108, 0.14, 'sine', 0.12, 0.05);
+            tone(1320, 0.16, 'sine', 0.11, 0.10); tone(1760, 0.30, 'sine', 0.10, 0.18);
             tone(2200, 0.35, 'sine', 0.06, 0.25);
         }
-        function soundVerifyStart() {
-            // Suara tech / verification start
-            tone(1200, 0.06, 'square', 0.08);
-            tone(1600, 0.06, 'square', 0.08, 0.08);
-            tone(2000, 0.08, 'square', 0.09, 0.16);
-        }
-        function soundVerifySuccess() {
-            // Chime sukses - 3 nada
-            tone(880, 0.15, 'sine', 0.14);
-            tone(1320, 0.18, 'sine', 0.12, 0.12);
-            tone(1760, 0.35, 'sine', 0.12, 0.24);
-            noise(0.2, 0.03, 0.24, 6000);
-        }
+        function soundVerifyStart() { tone(1200, 0.06, 'square', 0.08); tone(1600, 0.06, 'square', 0.08, 0.08); tone(2000, 0.08, 'square', 0.09, 0.16); }
+        function soundVerifySuccess() { tone(880, 0.15, 'sine', 0.14); tone(1320, 0.18, 'sine', 0.12, 0.12); tone(1760, 0.35, 'sine', 0.12, 0.24); noise(0.2, 0.03, 0.24, 6000); }
+        function soundWhoosh() { sweep(400, 1200, 0.3, 'sine', 0.1); noise(0.3, 0.04, 0, 1500); }
         function pixelTick(step) {
-            if (step % 4 === 0) {
-                tone(1200, 0.05, 'square', 0.07);
-                tone(1800, 0.03, 'square', 0.04, 0.02);
-            } else {
-                tone(900 + step * 20, 0.025, 'square', 0.05);
-            }
+            if (step % 4 === 0) { tone(1200, 0.05, 'square', 0.07); tone(1800, 0.03, 'square', 0.04, 0.02); }
+            else { tone(900 + step * 20, 0.025, 'square', 0.05); }
         }
         function pixelComplete() {
             sweep(80, 40, 0.6, 'sine', 0.25);
-            tone(523, 0.12, 'square', 0.12);
-            tone(659, 0.12, 'square', 0.12, 0.10);
-            tone(784, 0.12, 'square', 0.12, 0.20);
-            tone(1046, 0.14, 'square', 0.13, 0.30);
-            tone(1318, 0.5, 'triangle', 0.14, 0.42);
-            tone(1568, 0.5, 'triangle', 0.10, 0.42);
-            tone(2093, 0.6, 'sine', 0.08, 0.42);
-            noise(0.4, 0.04, 0.42, 5000);
+            tone(523, 0.12, 'square', 0.12); tone(659, 0.12, 'square', 0.12, 0.10);
+            tone(784, 0.12, 'square', 0.12, 0.20); tone(1046, 0.14, 'square', 0.13, 0.30);
+            tone(1318, 0.5, 'triangle', 0.14, 0.42); tone(1568, 0.5, 'triangle', 0.10, 0.42);
+            tone(2093, 0.6, 'sine', 0.08, 0.42); noise(0.4, 0.04, 0.42, 5000);
             sweep(60, 30, 0.5, 'sine', 0.18, 0.42);
         }
         function vibrate(ms = 40) { if (navigator.vibrate) navigator.vibrate(ms); }
 
         // ==========================================================
-        //   CONSENT SYSTEM
+        //   CONSENT
         // ==========================================================
         const CONSENT_KEY = 'shiriuka_consent_v1';
-
-        function hasConsent() {
-            try { return localStorage.getItem(CONSENT_KEY) === 'true'; }
-            catch(e) { return false; }
-        }
-        function saveConsent() {
-            try { localStorage.setItem(CONSENT_KEY, 'true'); }
-            catch(e) {}
-        }
+        function hasConsent() { try { return localStorage.getItem(CONSENT_KEY) === 'true'; } catch(e) { return false; } }
+        function saveConsent() { try { localStorage.setItem(CONSENT_KEY, 'true'); } catch(e) {} }
 
         function startPixelLoader() {
             document.getElementById('loader').classList.remove('hide');
@@ -1005,7 +1062,6 @@
             }
             const blocks = bar.querySelectorAll('.pixel-block');
             let current = 0;
-
             const interval = setInterval(() => {
                 if (current >= totalBlocks) {
                     clearInterval(interval);
@@ -1019,7 +1075,6 @@
                 percentEl.textContent = Math.round((current / totalBlocks) * 100) + '%';
                 pixelTick(current);
             }, 120);
-
             const loaderLogo = document.getElementById('loaderLogo');
             const profile = LINK_DATA.profile || {};
             if (profile.avatar) {
@@ -1042,50 +1097,33 @@
             const consentCard = document.getElementById('consentCard');
             const checkbox = document.getElementById('dontShowAgain');
             const shieldSvg = consentCard.querySelector('.consent-shield svg');
-            const originalSvgContent = shieldSvg.innerHTML;
 
             consentBtn.addEventListener('click', () => {
-                // Unlock audio
                 ensureAudio();
                 soundVerifyStart();
                 vibrate(30);
-
-                // Simulasi verifikasi 1.2 detik
                 consentBtn.classList.add('verifying');
                 consentBtn.textContent = 'MEMVERIFIKASI...';
                 consentBtn.disabled = true;
-
-                // Ubah shield jadi spinner
                 shieldSvg.innerHTML = '<circle cx="12" cy="12" r="9" stroke-dasharray="15 5" stroke-linecap="round"/>';
-
                 setTimeout(() => {
-                    // Simpan consent kalau checkbox dicentang
                     if (checkbox.checked) saveConsent();
-
-                    // Sukses
                     soundVerifySuccess();
                     vibrate([40, 60, 40]);
                     consentCard.classList.add('verified');
-                    shieldSvg.innerHTML = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4" stroke-dasharray="20" stroke-dashoffset="0"/>';
+                    shieldSvg.innerHTML = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>';
                     consentBtn.textContent = '✓ TERVERIFIKASI';
                     consentBtn.style.background = 'linear-gradient(145deg, #22c55e, #16a34a)';
                     consentBtn.style.color = '#fff';
-
-                    // Hide consent + start loader
                     setTimeout(() => {
                         consentEl.classList.add('hide');
-                        setTimeout(() => {
-                            startPixelLoader();
-                        }, 400);
+                        setTimeout(() => { startPixelLoader(); }, 400);
                     }, 700);
                 }, 1200);
             });
         }
 
-        // Init consent flow
         if (hasConsent()) {
-            // Skip consent - langsung loading
-            // Unlock audio best-effort
             setTimeout(() => { ensureAudio(); }, 100);
             startPixelLoader();
         } else {
@@ -1093,17 +1131,94 @@
         }
 
         // ==========================================================
-        //   BACKGROUND VIDEO
+        //   MULTI VIDEO BACKGROUND SYSTEM
+        //   - Acak saat page load / refresh
+        //   - Acak saat user balik ke tab (setelah idle >5 detik)
+        //   - TIDAK ada auto-rotate
         // ==========================================================
-        (function initBgVideo() {
-            const v = document.getElementById('bgVideo');
-            const source = document.createElement('source');
-            source.src = LINK_DATA.videoUrl;
-            source.type = 'video/mp4';
-            v.appendChild(source);
-            v.play().catch(() => {});
-            v.playbackRate = 0.85;
-        })();
+        const bgWrap = document.getElementById('bgVideoWrap');
+        let videoElements = [];
+        let currentVideoIndex = -1;
+        let hiddenSince = null;
+
+        function createVideoElements() {
+            const urls = LINK_DATA.videoUrls || [];
+            bgWrap.innerHTML = '';
+            videoElements = [];
+            urls.forEach((url, i) => {
+                const v = document.createElement('video');
+                v.muted = true;
+                v.loop = true;
+                v.playsInline = true;
+                v.preload = 'metadata';
+                v.setAttribute('muted', '');
+                v.setAttribute('playsinline', '');
+                const source = document.createElement('source');
+                source.src = url;
+                source.type = 'video/mp4';
+                v.appendChild(source);
+                bgWrap.appendChild(v);
+                videoElements.push({ el: v, url: url, index: i });
+            });
+        }
+
+        function playVideoIndex(index) {
+            if (index < 0 || index >= videoElements.length) return;
+            videoElements.forEach(v => {
+                v.el.classList.remove('active');
+                try { v.el.pause(); } catch(e) {}
+            });
+            const target = videoElements[index];
+            target.el.currentTime = 0;
+            const playPromise = target.el.play();
+            if (playPromise) playPromise.catch(() => {});
+            target.el.playbackRate = 0.85;
+            target.el.classList.add('active');
+            currentVideoIndex = index;
+            updateInfoVideoStatus();
+        }
+
+        function playRandomVideo() {
+            if (videoElements.length === 0) return;
+            if (videoElements.length === 1) { playVideoIndex(0); return; }
+            let newIndex;
+            do { newIndex = Math.floor(Math.random() * videoElements.length); }
+            while (newIndex === currentVideoIndex && videoElements.length > 1);
+            playVideoIndex(newIndex);
+        }
+
+        function updateInfoVideoStatus() {
+            const el = document.getElementById('infoVideoStatus');
+            if (el) el.textContent = `Video ${currentVideoIndex + 1}/${videoElements.length}`;
+        }
+
+        // Init video
+        createVideoElements();
+        if (videoElements.length > 0) {
+            const firstIndex = Math.floor(Math.random() * videoElements.length);
+            playVideoIndex(firstIndex);
+        }
+
+        // Random saat user balik ke tab (keluar >5 detik)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                hiddenSince = Date.now();
+                videoElements.forEach(v => { try { v.el.pause(); } catch(e) {} });
+            } else {
+                const awayDuration = hiddenSince ? Date.now() - hiddenSince : 0;
+                if (awayDuration > 5000) {
+                    playRandomVideo();
+                } else if (currentVideoIndex >= 0) {
+                    try { videoElements[currentVideoIndex].el.play(); } catch(e) {}
+                }
+                hiddenSince = null;
+            }
+        });
+
+        // Handle BFCache (browser back-forward cache)
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted) playRandomVideo();
+        });
 
         // ==========================================================
         //   PROFILE
@@ -1112,12 +1227,11 @@
         if (profile.enabled) {
             document.getElementById('profileSection').classList.add('active');
             document.getElementById('profileName').textContent = profile.name || '';
+            document.getElementById('infoWebName').textContent = profile.name || 'Web';
             const avatarUrl = profile.avatar || '';
             const initial = (profile.name || 'S').charAt(0);
-
             const avatarImg = document.getElementById('profileAvatarImg');
             const avatarFallback = document.getElementById('profileAvatarFallback');
-
             loadImageWithFallback(avatarUrl,
                 (workingUrl) => {
                     avatarImg.src = workingUrl;
@@ -1134,7 +1248,6 @@
                     avatarFallback.textContent = initial;
                 }
             );
-
             if (profile.typing && profile.bio) {
                 const bioEl = document.getElementById('profileBio');
                 const text = profile.bio;
@@ -1157,6 +1270,8 @@
             let count = parseInt(localStorage.getItem('visitor_count') || '0') + 1;
             localStorage.setItem('visitor_count', count);
             const el = document.getElementById('visitorCount');
+            const infoEl = document.getElementById('infoVisitCount');
+            if (infoEl) infoEl.textContent = count;
             let cur = 0;
             const step = Math.max(1, Math.ceil(count / 30));
             const iv = setInterval(() => {
@@ -1177,18 +1292,15 @@
             const item = document.createElement('div');
             item.className = 'link-item';
             item.style.animationDelay = (0.3 + (index * 0.08)) + 's';
-
             const a = document.createElement('a');
             a.href = link.url;
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
             a.className = 'btn';
             a.dataset.name = link.name.toLowerCase();
-
             const shine = document.createElement('span');
             shine.className = 'shine';
             a.appendChild(shine);
-
             const iconWrap = document.createElement('span');
             iconWrap.className = 'btn-icon';
             if (link.icon) {
@@ -1205,24 +1317,20 @@
                     );
                 } else { iconWrap.textContent = link.icon; }
             } else { iconWrap.textContent = '✦'; }
-
             const span = document.createElement('span');
             span.className = 'btn-text';
             span.textContent = link.name;
-
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-inline';
             copyBtn.setAttribute('aria-label', 'Copy link');
             copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
-
             copyBtn.addEventListener('click', (e) => {
                 e.preventDefault(); e.stopPropagation();
                 navigator.clipboard.writeText(link.url).then(() => {
                     copyBtn.classList.add('copied');
                     copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
                     showToast('📋 Link berhasil di-copy!');
-                    soundConfirm();
-                    vibrate(50);
+                    soundConfirm(); vibrate(50);
                     setTimeout(() => {
                         copyBtn.classList.remove('copied');
                         copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
@@ -1235,24 +1343,19 @@
                     showToast('📋 Link berhasil di-copy!');
                 });
             });
-
             a.appendChild(iconWrap);
             a.appendChild(span);
             a.appendChild(copyBtn);
-
             if (link.badge) {
                 const badge = document.createElement('span');
                 badge.className = 'badge badge-' + link.badge.toLowerCase();
                 badge.textContent = link.badge;
                 a.appendChild(badge);
             }
-
             a.addEventListener('mouseenter', soundHover);
             a.addEventListener('touchstart', soundHover, { passive: true });
-
             let confirmState = false, resetTimer = null;
             const originalText = link.name;
-
             a.addEventListener('click', function(e) {
                 if (e.target.closest('.copy-inline')) return;
                 if (!confirmState) {
@@ -1280,23 +1383,126 @@
                         span.textContent = originalText;
                     }, 3000);
                 } else {
-                    soundConfirm();
-                    vibrate([30, 50, 30]);
-                    confettiBurst();
-                    hideToast();
+                    soundConfirm(); vibrate([30, 50, 30]);
+                    confettiBurst(); hideToast();
                 }
             });
-
             item.appendChild(a);
-
             if (link.version) {
                 const versionEl = document.createElement('div');
                 versionEl.className = 'version-label';
                 versionEl.textContent = link.version;
                 item.appendChild(versionEl);
             }
-
             linksContainer.appendChild(item);
+        });
+        document.getElementById('infoTotalLinks').textContent = LINK_DATA.links.length;
+
+        // ==========================================================
+        //   MENU POPUP
+        // ==========================================================
+        const menuBtn = document.getElementById('menuBtn');
+        const menuPopup = document.getElementById('menuPopup');
+        let menuOpen = false;
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuOpen = !menuOpen;
+            menuPopup.classList.toggle('show', menuOpen);
+            menuBtn.classList.toggle('open', menuOpen);
+            soundClick(); vibrate(20);
+        });
+        document.addEventListener('click', (e) => {
+            if (menuOpen && !menuPopup.contains(e.target) && !menuBtn.contains(e.target)) {
+                menuOpen = false;
+                menuPopup.classList.remove('show');
+                menuBtn.classList.remove('open');
+            }
+        });
+
+        document.getElementById('miRandomVideo').addEventListener('click', () => {
+            playRandomVideo();
+            soundWhoosh();
+            vibrate(40);
+            showToast('🎲 Background diganti!');
+        });
+
+        const soundToggle = document.getElementById('miSoundToggle');
+        soundToggle.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            soundToggle.classList.toggle('active', soundEnabled);
+            document.getElementById('infoSoundStatus').textContent = soundEnabled ? 'ON' : 'OFF';
+            if (soundEnabled) soundClick();
+            vibrate(20);
+            showToast(soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF');
+        });
+
+        const themeToggle = document.getElementById('miThemeToggle');
+        const savedTheme = localStorage.getItem('shiriuka_theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.classList.remove('active');
+            themeToggle.querySelector('.mi-icon').textContent = '☀️';
+            themeToggle.querySelector('.mi-label').textContent = 'Light Mode';
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('shiriuka_theme', isLight ? 'light' : 'dark');
+            themeToggle.classList.toggle('active', !isLight);
+            themeToggle.querySelector('.mi-icon').textContent = isLight ? '☀️' : '🌙';
+            themeToggle.querySelector('.mi-label').textContent = isLight ? 'Light Mode' : 'Dark Mode';
+            soundClick(); vibrate(20);
+            showToast(isLight ? '☀️ Light Mode' : '🌙 Dark Mode');
+        });
+
+        document.getElementById('miShare').addEventListener('click', async () => {
+            const shareData = {
+                title: LINK_DATA.profile?.name || 'Bio Link',
+                text: 'Cek link ini!',
+                url: window.location.href
+            };
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    soundConfirm();
+                } else {
+                    await navigator.clipboard.writeText(window.location.href);
+                    showToast('🔗 Link halaman di-copy!');
+                }
+            } catch(e) {}
+        });
+
+        document.getElementById('miCopyUrl').addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showToast('📋 URL web berhasil di-copy!');
+                soundConfirm(); vibrate(50);
+            }).catch(() => {});
+        });
+
+        document.getElementById('miScrollTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            soundClick(); vibrate(20);
+            menuOpen = false;
+            menuPopup.classList.remove('show');
+            menuBtn.classList.remove('open');
+        });
+
+        document.getElementById('miInfo').addEventListener('click', () => {
+            document.getElementById('infoModal').classList.add('show');
+            soundClick(); vibrate(20);
+            menuOpen = false;
+            menuPopup.classList.remove('show');
+            menuBtn.classList.remove('open');
+        });
+        document.getElementById('infoClose').addEventListener('click', () => {
+            document.getElementById('infoModal').classList.remove('show');
+            soundClick();
+        });
+        document.getElementById('infoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'infoModal') {
+                e.target.classList.remove('show');
+            }
         });
 
         // ==========================================================
@@ -1366,14 +1572,6 @@
                 const name = item.querySelector('.btn').dataset.name;
                 item.style.display = name.includes(keyword) ? 'flex' : 'none';
             });
-        });
-
-        // ==========================================================
-        //   MENU
-        // ==========================================================
-        document.getElementById('menuBtn').addEventListener('click', () => {
-            soundClick(); vibrate(30);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // ==========================================================
