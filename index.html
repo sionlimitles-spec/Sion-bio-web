@@ -16,21 +16,16 @@
             transition: background 0.5s ease;
         }
 
-        /* SVG ICON BASE STYLE */
-        .ico {
+        /* SVG ICON - GLOBAL */
+        svg.svgico {
             width: 20px; height: 20px;
-            display: inline-flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-            fill: none;
-            stroke: currentColor;
+            fill: none; stroke: currentColor;
             stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            color: #fff;
+            stroke-linecap: round; stroke-linejoin: round;
+            display: block; flex-shrink: 0;
         }
-        .ico svg { width: 100%; height: 100%; display: block; }
-        .ico-fill svg { fill: currentColor; stroke: none; }
 
+        /* FULLSCREEN VIDEO BG */
         .bg-video-wrap {
             position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none;
             background: radial-gradient(circle at 50% 40%, rgba(120, 60, 180, 0.25) 0%, transparent 60%),
@@ -80,11 +75,8 @@
             background: linear-gradient(90deg, transparent, #fff, transparent);
             animation: borderSweep 3s linear infinite;
         }
-        @keyframes borderSweep {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        .consent-icon-wrap { display: flex; justify-content: center; margin-bottom: 18px; position: relative; }
+        @keyframes borderSweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .consent-icon-wrap { display: flex; justify-content: center; margin-bottom: 18px; }
         .consent-shield { width: 68px; height: 68px; display: flex; align-items: center; justify-content: center; position: relative; }
         .consent-shield svg {
             width: 100%; height: 100%; fill: none; stroke: #fff; stroke-width: 2;
@@ -92,20 +84,14 @@
             filter: drop-shadow(0 0 12px rgba(255,255,255,0.5));
             animation: shieldPulse 2s ease-in-out infinite;
         }
-        @keyframes shieldPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
+        @keyframes shieldPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
         .consent-shield::after {
             content: ''; position: absolute; inset: -6px; border-radius: 50%;
             border: 1px solid rgba(255,255,255,0.3);
             animation: shieldRing 2.5s ease-out infinite;
         }
-        @keyframes shieldRing {
-            0% { transform: scale(0.9); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-        .consent-title { font-size: 20px; font-weight: 800; text-align: center; letter-spacing: 1px; margin-bottom: 6px; color: #fff; }
+        @keyframes shieldRing { 0% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+        .consent-title { font-size: 20px; font-weight: 800; text-align: center; letter-spacing: 1px; margin-bottom: 6px; }
         .consent-subtitle { font-size: 12.5px; color: #a1a1aa; text-align: center; margin-bottom: 22px; line-height: 1.5; }
         .consent-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
         .consent-item {
@@ -120,19 +106,18 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
+            color: #fff;
         }
-        .ci-icon .ico { width: 20px; height: 20px; color: #fff; }
+        .ci-icon svg.svgico { width: 20px; height: 20px; }
         .ci-text { flex: 1; }
         .ci-text strong { display: block; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
         .ci-text span { display: block; font-size: 11.5px; color: #888; line-height: 1.45; }
-
         .consent-checkbox {
             display: flex; align-items: center; gap: 12px;
             padding: 14px 16px;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
-            cursor: pointer;
+            border-radius: 14px; cursor: pointer;
             margin-bottom: 18px;
             user-select: none; -webkit-user-select: none;
         }
@@ -155,7 +140,6 @@
         }
         .consent-checkbox.checked .checkbox-box::after { transform: rotate(45deg) scale(1); }
         .checkbox-label { font-size: 12.5px; color: #d4d4d8; font-weight: 500; }
-
         .consent-btn {
             width: 100%; padding: 18px 24px;
             background: linear-gradient(145deg, #fff, #d4d4d8);
@@ -193,10 +177,7 @@
             border: 3px solid #fff;
             box-shadow: 0 0 20px rgba(255,255,255,0.4);
         }
-        @keyframes pixelBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
+        @keyframes pixelBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .pixel-particles { position: relative; width: 130px; height: 50px; margin-top: -8px; }
         .pixel-particle {
             position: absolute; width: 5px; height: 5px;
@@ -251,6 +232,7 @@
         #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
         #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9997; }
 
+        /* TOP NAV */
         .top-nav {
             position: fixed; top: 0; left: 0; width: 100%;
             display: flex; justify-content: center;
@@ -264,8 +246,9 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 50px; padding: 13px 20px;
+            gap: 10px;
         }
-        .search-box .ico { color: #71717a; margin-right: 12px; width: 18px; height: 18px; }
+        .search-box svg.svgico { color: #71717a; width: 18px; height: 18px; }
         .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 15px; font-weight: 500; }
         .search-box input::placeholder { color: #52525b; }
         .clock-display {
@@ -281,9 +264,11 @@
             border: 1px solid rgba(255,255,255,0.08);
             display: flex; justify-content: center; align-items: center;
             cursor: pointer; flex-shrink: 0;
+            color: #fff;
         }
-        .menu-btn .ico { width: 22px; height: 22px; }
+        .menu-btn svg.svgico { width: 22px; height: 22px; }
 
+        /* MENU POPUP */
         .menu-popup {
             position: fixed; top: 76px; right: 18px; width: 250px;
             background: linear-gradient(145deg, rgba(20,20,20,0.98), rgba(30,30,30,0.98));
@@ -305,11 +290,11 @@
         }
         .menu-item:hover { background: rgba(255,255,255,0.08); }
         .menu-item .mi-icon {
-            width: 22px; height: 22px;
+            width: 22px; height: 22px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
+            color: #d4d4d8;
         }
-        .menu-item .mi-icon .ico { width: 18px; height: 18px; }
+        .menu-item .mi-icon svg.svgico { width: 18px; height: 18px; }
         .menu-item .mi-label { flex: 1; }
         .menu-item .mi-toggle {
             width: 36px; height: 20px;
@@ -326,6 +311,7 @@
         .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 6px 10px; }
         .menu-header { padding: 10px 14px 6px; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: #52525b; text-transform: uppercase; }
 
+        /* INFO MODAL */
         .info-modal {
             position: fixed; inset: 0;
             background: rgba(0,0,0,0.7);
@@ -342,8 +328,11 @@
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 24px; padding: 26px 24px;
         }
-        .info-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .info-card h3 .ico { width: 20px; height: 20px; color: #fff; }
+        .info-card h3 {
+            font-size: 18px; font-weight: 800; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .info-card h3 svg.svgico { width: 20px; height: 20px; color: #fff; }
         .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; }
         .info-row:last-child { border-bottom: none; }
         .info-row .label { color: #a1a1aa; }
@@ -356,6 +345,7 @@
             cursor: pointer; font-size: 13px;
         }
 
+        /* CONTAINER */
         .container {
             position: relative; z-index: 1;
             width: 100%; max-width: 500px;
@@ -364,13 +354,20 @@
         }
         .profile { display: none; flex-direction: column; align-items: center; text-align: center; gap: 20px; }
         .profile.active { display: flex; }
-        .avatar-wrapper { position: relative; width: 135px; height: 135px; display: flex; align-items: center; justify-content: center; }
+
+        /* AVATAR - CLEAN, NO GLITCH */
+        .avatar-wrapper {
+            position: relative;
+            width: 135px; height: 135px;
+            display: flex; align-items: center; justify-content: center;
+        }
         .avatar-ring {
             position: absolute; inset: 0; border-radius: 50%; padding: 3px;
-            background: conic-gradient(from 0deg, transparent 0%, #fff 30%, transparent 60%, #fff 90%, transparent 100%);
+            background: conic-gradient(from 0deg, transparent 0%, #fff 25%, transparent 50%, #fff 75%, transparent 100%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor; mask-composite: exclude;
             animation: spinRing 3s linear infinite;
+            pointer-events: none;
         }
         @keyframes spinRing { to { transform: rotate(360deg); } }
         .profile-avatar {
@@ -379,9 +376,11 @@
             background: #0a0a0a;
             border: 3px solid rgba(255,255,255,0.9);
             display: flex; align-items: center; justify-content: center;
-            font-size: 46px; font-weight: 900; z-index: 2;
+            font-size: 46px; font-weight: 900;
+            box-shadow: 0 0 25px rgba(255,255,255,0.25), inset 0 0 15px rgba(255,255,255,0.05);
         }
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
         .profile-name {
             font-size: 32px; font-weight: 900;
             letter-spacing: 6px; text-transform: uppercase;
@@ -410,7 +409,11 @@
             width: 8px; height: 8px;
             background: #22c55e; border-radius: 50%;
             box-shadow: 0 0 10px #22c55e;
+            animation: livePulse 2s ease-in-out infinite;
         }
+        @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* LINKS */
         .links { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .link-item { display: flex; flex-direction: column; gap: 10px; position: relative; }
         .btn {
@@ -432,20 +435,43 @@
             border-radius: 12px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
+            color: #fff;
+            overflow: hidden;
         }
-        .btn .btn-icon img { width: 60%; height: 60%; object-fit: contain; display: block; border-radius: 8px; }
-        .btn .btn-icon .ico { width: 24px; height: 24px; color: #fff; }
+        .btn .btn-icon img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .btn .btn-icon svg.svgico { width: 22px; height: 22px; }
         .btn .btn-text { flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* COPY BUTTON - FIXED */
         .copy-inline {
-            width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%;
+            width: 48px; height: 48px; flex-shrink: 0;
+            border-radius: 50%;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; padding: 0; outline: none;
+            color: #a1a1aa;
+            transition: all 0.3s ease;
+            position: relative; z-index: 5;
         }
-        .copy-inline .ico { width: 20px; height: 20px; color: #a1a1aa; transition: color 0.3s ease; }
-        .copy-inline.copied { background: linear-gradient(145deg, #22c55e, #16a34a); border-color: #22c55e; }
-        .copy-inline.copied .ico { color: #fff; }
+        .copy-inline svg.svgico {
+            width: 20px; height: 20px;
+            fill: none; stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+            pointer-events: none;
+        }
+        .copy-inline.copied {
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            border-color: #22c55e;
+            color: #fff;
+        }
+
+        /* BADGE */
         .badge {
             position: absolute; top: -10px; right: 26px;
             padding: 5px 14px 5px 16px;
@@ -463,21 +489,24 @@
             letter-spacing: 2px; text-align: center;
             font-weight: 600; text-transform: uppercase;
         }
+
+        /* TOAST */
         .toast {
             position: fixed; bottom: 32px; left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: rgba(255,255,255,0.98); color: #000;
-            padding: 15px 28px; border-radius: 50px;
-            font-size: 14px; font-weight: 700;
+            padding: 15px 24px; border-radius: 50px;
+            font-size: 13px; font-weight: 700;
             z-index: 999;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none; white-space: nowrap;
             display: flex; align-items: center; gap: 10px;
         }
-        .toast .ico { width: 18px; height: 18px; color: #000; }
+        .toast svg.svgico { width: 16px; height: 16px; color: #000; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
+        /* LIGHT MODE */
         body.light-mode { --bg: #f5f5f5; color: #111; }
         body.light-mode .bg-video-overlay {
             background: radial-gradient(circle at 50% 0%, rgba(245,245,245,0.5) 0%, rgba(245,245,245,0.95) 70%),
@@ -485,14 +514,12 @@
         }
         body.light-mode .top-nav { background: linear-gradient(to bottom, rgba(245,245,245,0.95), transparent); }
         body.light-mode .btn { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.08); color: #111; }
-        body.light-mode .btn .btn-icon { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
-        body.light-mode .btn .btn-icon .ico { color: #111; }
+        body.light-mode .btn .btn-icon { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); color: #111; }
         body.light-mode .search-box { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
-        body.light-mode .search-box .ico { color: #666; }
+        body.light-mode .search-box svg.svgico { color: #666; }
         body.light-mode .search-box input { color: #111; }
         body.light-mode .clock-display { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); color: #111; }
-        body.light-mode .menu-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
-        body.light-mode .menu-btn .ico { color: #111; }
+        body.light-mode .menu-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); color: #111; }
         body.light-mode .profile-name {
             background: linear-gradient(90deg, #111 0%, #666 25%, #111 50%, #666 75%, #111 100%);
             background-size: 200% auto;
@@ -500,8 +527,7 @@
         }
         body.light-mode .profile-bio { color: #666; }
         body.light-mode .visitor-counter { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); color: #666; }
-        body.light-mode .copy-inline { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
-        body.light-mode .copy-inline .ico { color: #666; }
+        body.light-mode .copy-inline { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); color: #666; }
         body.light-mode .version-label { color: #999; }
 
         @media (max-width: 400px) {
@@ -513,9 +539,9 @@
             .badge { font-size: 10px; padding: 4px 12px; right: 22px; }
             .clock-display { font-size: 12.5px; padding: 12px 15px; }
             .btn .btn-icon { width: 46px; height: 46px; }
-            .btn .btn-icon .ico { width: 22px; height: 22px; }
+            .btn .btn-icon svg.svgico { width: 20px; height: 20px; }
             .copy-inline { width: 42px; height: 42px; }
-            .copy-inline .ico { width: 18px; height: 18px; }
+            .copy-inline svg.svgico { width: 18px; height: 18px; }
             .pixel-logo { width: 72px; height: 72px; }
             .pixel-block { width: 11px; height: 16px; }
             .pixel-loading-text { font-size: 15px; }
@@ -537,37 +563,28 @@
         <div class="consent-card" id="consentCard">
             <div class="consent-icon-wrap">
                 <div class="consent-shield">
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="M9 12l2 2 4-4"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
                 </div>
             </div>
             <div class="consent-title">Verifikasi Akses</div>
             <div class="consent-subtitle">Sebelum melanjutkan, mohon konfirmasi bahwa Anda pengunjung asli.</div>
             <div class="consent-list">
                 <div class="consent-item">
-                    <div class="ci-icon">
-                        <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
-                    </div>
+                    <div class="ci-icon"><svg class="svgico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
                     <div class="ci-text">
                         <strong>Perlindungan Bot & AI Scraper</strong>
                         <span>Verifikasi singkat untuk mencegah akses otomatis dari bot, crawler, dan AI scraper.</span>
                     </div>
                 </div>
                 <div class="consent-item">
-                    <div class="ci-icon">
-                        <span class="ico"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></span>
-                    </div>
+                    <div class="ci-icon"><svg class="svgico" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
                     <div class="ci-text">
                         <strong>Persetujuan Audio Browser</strong>
                         <span>Sesuai kebijakan browser modern, kami butuh konfirmasi sebelum memutar suara.</span>
                     </div>
                 </div>
                 <div class="consent-item">
-                    <div class="ci-icon">
-                        <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                    </div>
+                    <div class="ci-icon"><svg class="svgico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
                     <div class="ci-text">
                         <strong>Privasi Data Terjamin</strong>
                         <span>Data kunjungan hanya disimpan lokal di perangkat Anda (localStorage).</span>
@@ -609,12 +626,12 @@
     <div class="top-nav">
         <div class="nav-content">
             <div class="search-box">
-                <span class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+                <svg class="svgico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 <input type="text" id="searchInput" placeholder="Cari link...">
             </div>
             <div class="clock-display" id="clockDisplay">--:--</div>
             <div class="menu-btn" id="menuBtn">
-                <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></span>
+                <svg class="svgico" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
             </div>
         </div>
     </div>
@@ -623,40 +640,40 @@
     <div class="menu-popup" id="menuPopup">
         <div class="menu-header">Pengaturan</div>
         <div class="menu-item" id="miRandomVideo">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="8.5" cy="15.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg></div>
             <div class="mi-label">Ganti Background</div>
         </div>
         <div class="menu-item active" id="miSoundToggle">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
             <div class="mi-label">Sound Effect</div>
             <div class="mi-toggle"></div>
         </div>
         <div class="menu-item" id="miThemeToggle">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
             <div class="mi-label">Dark Mode</div>
             <div class="mi-toggle"></div>
         </div>
         <div class="menu-divider"></div>
         <div class="menu-header">Aksi</div>
         <div class="menu-item" id="miShare">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg></div>
             <div class="mi-label">Bagikan Halaman</div>
         </div>
         <div class="menu-item" id="miCopyUrl">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
             <div class="mi-label">Copy URL Web</div>
         </div>
         <div class="menu-item" id="miScrollTop">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
             <div class="mi-label">Scroll ke Atas</div>
         </div>
         <div class="menu-divider"></div>
         <div class="menu-item" id="miInfo">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
             <div class="mi-label">Info Halaman</div>
         </div>
         <div class="menu-item" id="miResetConsent">
-            <div class="mi-icon"><span class="ico"><svg viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span></div>
+            <div class="mi-icon"><svg class="svgico" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
             <div class="mi-label">Reset Verifikasi</div>
         </div>
     </div>
@@ -664,9 +681,9 @@
     <!-- INFO MODAL -->
     <div class="info-modal" id="infoModal">
         <div class="info-card">
-            <h3><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span> Info Halaman</h3>
+            <h3><svg class="svgico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Info Halaman</h3>
             <div class="info-row"><span class="label">Nama Web</span><span class="value" id="infoWebName">SHIRIUKA</span></div>
-            <div class="info-row"><span class="label">Versi</span><span class="value">v2.2.0</span></div>
+            <div class="info-row"><span class="label">Versi</span><span class="value">v2.3.0</span></div>
             <div class="info-row"><span class="label">Total Link</span><span class="value" id="infoTotalLinks">0</span></div>
             <div class="info-row"><span class="label">Kunjungan Anda</span><span class="value" id="infoVisitCount">0</span></div>
             <div class="info-row"><span class="label">Status Video</span><span class="value" id="infoVideoStatus">-</span></div>
@@ -697,24 +714,20 @@
         <div class="links" id="linksContainer"></div>
     </div>
 
-    <div class="toast" id="toast">👆 Klik sekali lagi untuk membuka</div>
+    <div class="toast" id="toast"></div>
 
     <script src="data.js"></script>
     <script>
         // ==========================================================
-        //   SVG ICON LIBRARY (Premium Icons)
+        //   SVG ICON HELPER
         // ==========================================================
-        const SVG_ICONS = {
-            copy: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
-            check: '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>',
-            link: '<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
-            hand: '<svg viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>',
-            sparkle: '<svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 16.8l-6.3 4.6L8 14 2 9.4h7.6z"/></svg>'
+        const SVG = {
+            copy: '<svg class="svgico" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+            check: '<svg class="svgico" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>',
+            link: '<svg class="svgico" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+            hand: '<svg class="svgico" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>',
+            sparkle: '<svg class="svgico" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 16.8l-6.3 4.6L8 14 2 9.4h7.6z"/></svg>'
         };
-
-        function svgIcon(name, color) {
-            return '<span class="ico" style="color:' + (color || '#fff') + '">' + SVG_ICONS[name] + '</span>';
-        }
 
         // ==========================================================
         //   PROXY IMAGE LOADER
@@ -841,7 +854,7 @@
         // ==========================================================
         //   CONSENT
         // ==========================================================
-        const CONSENT_KEY = 'shiriuka_consent_v2';
+        const CONSENT_KEY = 'shiriuka_consent_v3';
         const consentEl = document.getElementById('consent');
         const loaderEl = document.getElementById('loader');
         const checkboxWrap = document.getElementById('checkboxWrap');
@@ -961,13 +974,16 @@
             urls.forEach((url, i) => {
                 const v = document.createElement('video');
                 v.muted = true; v.loop = true; v.playsInline = true;
-                v.preload = 'metadata';
+                v.preload = 'auto';
                 v.setAttribute('muted', '');
                 v.setAttribute('playsinline', '');
                 const source = document.createElement('source');
                 source.src = url;
                 source.type = 'video/mp4';
                 v.appendChild(source);
+                v.addEventListener('error', () => {
+                    console.warn('Video gagal load:', url);
+                });
                 bgWrap.appendChild(v);
                 videoElements.push({ el: v, url: url, index: i });
             });
@@ -1115,10 +1131,10 @@
                             iconWrap.innerHTML = '';
                             iconWrap.appendChild(img);
                         },
-                        () => { iconWrap.innerHTML = SVG_ICONS.link; }
+                        () => { iconWrap.innerHTML = SVG.link; }
                     );
-                } else { iconWrap.innerHTML = SVG_ICONS.link; }
-            } else { iconWrap.innerHTML = SVG_ICONS.sparkle; }
+                } else { iconWrap.innerHTML = SVG.link; }
+            } else { iconWrap.innerHTML = SVG.sparkle; }
 
             const span = document.createElement('span');
             span.className = 'btn-text';
@@ -1126,17 +1142,17 @@
 
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-inline';
-            copyBtn.innerHTML = SVG_ICONS.copy;
+            copyBtn.innerHTML = SVG.copy;
             copyBtn.addEventListener('click', (e) => {
                 e.preventDefault(); e.stopPropagation();
                 navigator.clipboard.writeText(link.url).then(() => {
                     copyBtn.classList.add('copied');
-                    copyBtn.innerHTML = SVG_ICONS.check;
-                    showToast(svgIcon('check', '#000') + ' Link berhasil di-copy!');
+                    copyBtn.innerHTML = SVG.check;
+                    showToast(SVG.check + ' Link berhasil di-copy!');
                     soundConfirm(); vibrate(50);
                     setTimeout(() => {
                         copyBtn.classList.remove('copied');
-                        copyBtn.innerHTML = SVG_ICONS.copy;
+                        copyBtn.innerHTML = SVG.copy;
                     }, 2000);
                 }).catch(() => {});
             });
@@ -1170,7 +1186,7 @@
                     setTimeout(() => ripple.remove(), 800);
                     a.classList.add('confirm');
                     span.textContent = 'KLIK LAGI';
-                    showToast(svgIcon('hand', '#000') + ' Klik sekali lagi untuk membuka');
+                    showToast(SVG.hand + ' Klik sekali lagi untuk membuka');
                     clearTimeout(resetTimer);
                     resetTimer = setTimeout(() => {
                         confirmState = false;
@@ -1216,7 +1232,7 @@
         document.getElementById('miRandomVideo').addEventListener('click', () => {
             playRandomVideo();
             soundWhoosh(); vibrate(40);
-            showToast(svgIcon('sparkle', '#000') + ' Background diganti!');
+            showToast(SVG.sparkle + ' Background diganti!');
         });
 
         const soundToggle = document.getElementById('miSoundToggle');
