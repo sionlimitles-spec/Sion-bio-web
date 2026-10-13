@@ -19,7 +19,7 @@
         }
 
         /* ==========================================
-           LOADING SCREEN - PREMIUM
+           LOADING SCREEN
            ========================================== */
         #loader {
             position: fixed; inset: 0;
@@ -27,60 +27,35 @@
             z-index: 9999;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            gap: 40px;
-            transition: opacity 1s ease, visibility 1s ease;
+            gap: 36px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
         #loader.hide { opacity: 0; visibility: hidden; }
 
         .loader-stage {
             position: relative;
-            width: 160px; height: 160px;
+            width: 140px; height: 140px;
             display: flex; align-items: center; justify-content: center;
         }
 
         .loader-ring {
             position: absolute;
             border-radius: 50%;
-            border: 1px solid transparent;
+            border: 1.5px solid transparent;
         }
-
         .ring-outer {
-            width: 160px; height: 160px;
-            border-top-color: rgba(255,255,255,0.6);
-            border-right-color: rgba(255,255,255,0.1);
+            width: 140px; height: 140px;
+            border-top-color: rgba(255,255,255,0.7);
             animation: rotateRing 2s linear infinite;
         }
-
         .ring-mid {
-            width: 130px; height: 130px;
-            border-bottom-color: rgba(255,255,255,0.5);
-            border-left-color: rgba(255,255,255,0.1);
+            width: 110px; height: 110px;
+            border-bottom-color: rgba(255,255,255,0.4);
             animation: rotateRing 2.5s linear infinite reverse;
         }
-
-        .ring-inner {
-            width: 100px; height: 100px;
-            border-top-color: rgba(255,255,255,0.4);
-            border-left-color: rgba(255,255,255,0.1);
-            animation: rotateRing 1.5s linear infinite;
-        }
-
         @keyframes rotateRing {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
-        }
-
-        .loader-glow {
-            position: absolute;
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
-            animation: glowPulse 1.8s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.4); opacity: 1; }
         }
 
         .loader-logo {
@@ -91,14 +66,9 @@
             border: 2px solid rgba(255,255,255,0.9);
             background: #111;
             display: flex; align-items: center; justify-content: center;
-            font-size: 28px; font-weight: 900;
-            box-shadow: 0 0 30px rgba(255,255,255,0.4), inset 0 0 20px rgba(255,255,255,0.1);
+            font-size: 26px; font-weight: 900;
+            box-shadow: 0 0 25px rgba(255,255,255,0.35);
             z-index: 2;
-            animation: logoBreath 2s ease-in-out infinite;
-        }
-        @keyframes logoBreath {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
         .loader-logo img {
             width: 100%; height: 100%;
@@ -106,54 +76,37 @@
             display: block;
         }
 
-        .loader-bar-wrap {
-            display: flex; flex-direction: column;
-            align-items: center; gap: 14px;
-            width: 220px;
-        }
-
         .loader-bar {
-            width: 100%; height: 3px;
+            width: 200px; height: 2px;
             background: rgba(255,255,255,0.08);
-            border-radius: 3px;
+            border-radius: 2px;
             overflow: hidden;
-            position: relative;
         }
-
         .loader-bar-inner {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #555, #fff, #555);
             background-size: 200% 100%;
-            border-radius: 3px;
-            animation: loadBar 2.2s ease forwards, shimmer 1s linear infinite;
-            box-shadow: 0 0 15px rgba(255,255,255,0.8);
+            animation: loadBar 2.2s ease forwards, shimmer 1.2s linear infinite;
+            box-shadow: 0 0 12px rgba(255,255,255,0.7);
         }
-
         @keyframes loadBar {
             0% { width: 0%; }
             30% { width: 45%; }
             60% { width: 70%; }
             100% { width: 100%; }
         }
-
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
 
         .loader-text {
-            font-size: 10px;
+            font-size: 9px;
             letter-spacing: 6px;
-            color: #666;
+            color: #555;
             text-transform: uppercase;
             font-weight: 600;
-            animation: textFlicker 2s ease-in-out infinite;
-        }
-
-        @keyframes textFlicker {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
         }
 
         /* ==========================================
@@ -164,7 +117,6 @@
             height: 2px; width: 0%;
             background: linear-gradient(90deg, transparent, #fff, transparent);
             z-index: 9998;
-            transition: width 0.1s ease;
             box-shadow: 0 0 10px #fff;
         }
 
@@ -176,21 +128,9 @@
             width: 100vw; height: 100vh;
             z-index: 0; pointer-events: none;
         }
-
         #confetti-canvas {
             position: fixed; inset: 0;
             pointer-events: none; z-index: 9997;
-        }
-
-        .grid-bg {
-            position: fixed; inset: 0; z-index: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            mask-image: radial-gradient(circle at center, black 10%, transparent 70%);
-            -webkit-mask-image: radial-gradient(circle at center, black 10%, transparent 70%);
         }
 
         /* ==========================================
@@ -199,33 +139,31 @@
         .top-nav {
             position: fixed; top: 0; left: 0; width: 100%;
             display: flex; justify-content: center;
-            padding: 16px 20px; z-index: 10;
+            padding: 15px 18px; z-index: 10;
             background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
-        .nav-content { width: 100%; max-width: 480px; display: flex; gap: 10px; align-items: center; }
+        .nav-content { width: 100%; max-width: 460px; display: flex; gap: 10px; align-items: center; }
 
         .search-box {
             flex: 1; display: flex; align-items: center;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 50px; padding: 11px 18px;
+            border-radius: 50px; padding: 10px 16px;
             transition: all 0.3s ease;
         }
         .search-box:focus-within {
             background: rgba(255,255,255,0.09);
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 0 25px rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.35);
         }
-        .search-box svg { width: 17px; height: 17px; fill: #71717a; margin-right: 10px; flex-shrink: 0; }
-        .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 14px; font-weight: 500; }
+        .search-box svg { width: 16px; height: 16px; fill: #71717a; margin-right: 10px; flex-shrink: 0; }
+        .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 13.5px; font-weight: 500; }
         .search-box input::placeholder { color: #52525b; }
 
         .clock-display {
             font-size: 12px; color: #d4d4d8; font-weight: 700;
-            letter-spacing: 1px; white-space: nowrap;
-            padding: 11px 14px;
+            padding: 10px 14px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 50px;
@@ -233,13 +171,13 @@
         }
 
         .menu-btn {
-            width: 42px; height: 42px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
             display: flex; justify-content: center; align-items: center;
             cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
         }
-        .menu-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.08) rotate(90deg); }
+        .menu-btn:active { transform: scale(0.95); }
         .menu-btn svg { width: 18px; height: 18px; fill: #fff; }
 
         /* ==========================================
@@ -248,95 +186,71 @@
         .container {
             position: relative; z-index: 1;
             width: 100%; max-width: 460px;
-            padding: 88px 20px 50px;
-            display: flex; flex-direction: column; gap: 24px;
+            padding: 82px 20px 50px;
+            display: flex; flex-direction: column; gap: 22px;
             animation: fadeIn 1s ease-out;
         }
 
         /* ==========================================
-           PROFILE
+           PROFILE - CLEAN & ELEGANT
            ========================================== */
         .profile {
             display: none; flex-direction: column;
             align-items: center; text-align: center;
-            gap: 16px; animation: fadeInUp 0.8s ease-out;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease-out;
         }
         .profile.active { display: flex; }
 
-        .avatar-stage {
+        .avatar-wrapper {
             position: relative;
-            width: 140px; height: 140px;
+            width: 110px; height: 110px;
             display: flex; align-items: center; justify-content: center;
-            perspective: 1000px;
         }
 
-        .orbit-ring {
+        /* Cincin conic gradient yang halus */
+        .avatar-ring {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            pointer-events: none;
-        }
-        .orbit-ring span {
-            position: absolute;
-            top: 50%; left: 50%;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #fff, 0 0 20px rgba(255,255,255,0.6);
-        }
-
-        .orbit-1 { animation: orbitSpin 7s linear infinite; }
-        .orbit-1 span { width: 6px; height: 6px; transform: translate(-50%, -50%) rotate(0deg) translateX(62px); }
-        .orbit-1 span:nth-child(2) { transform: translate(-50%, -50%) rotate(180deg) translateX(62px); }
-
-        .orbit-2 { animation: orbitSpinRev 10s linear infinite; }
-        .orbit-2 span { width: 4px; height: 4px; transform: translate(-50%, -50%) rotate(90deg) translateX(68px); opacity: 0.8; }
-        .orbit-2 span:nth-child(2) { transform: translate(-50%, -50%) rotate(270deg) translateX(68px); }
-
-        .orbit-3 { animation: orbitSpin 15s linear infinite; }
-        .orbit-3 span { width: 3px; height: 3px; transform: translate(-50%, -50%) rotate(45deg) translateX(72px); opacity: 0.5; }
-        .orbit-3 span:nth-child(2) { transform: translate(-50%, -50%) rotate(225deg) translateX(72px); }
-
-        @keyframes orbitSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes orbitSpinRev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-
-        .pulse-wave {
-            position: absolute;
-            inset: 20px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.35);
-            animation: pulseWave 3s ease-out infinite;
-            pointer-events: none;
-        }
-        .pulse-wave:nth-child(2) { animation-delay: 1s; }
-        .pulse-wave:nth-child(3) { animation-delay: 2s; }
-        @keyframes pulseWave {
-            0% { transform: scale(1); opacity: 0.7; }
-            100% { transform: scale(1.7); opacity: 0; }
-        }
-
-        .avatar-ring {
-            position: absolute;
-            width: 110px; height: 110px;
-            border-radius: 50%;
             padding: 2px;
-            background: conic-gradient(from 0deg, #fff, #444, #fff, #444, #fff);
-            animation: spinAvatarRing 4s linear infinite;
-            z-index: 3;
+            background: conic-gradient(from 0deg, transparent 0%, #fff 30%, transparent 60%, #fff 90%, transparent 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spinRing 3s linear infinite;
         }
-        @keyframes spinAvatarRing { to { transform: rotate(360deg); } }
+        @keyframes spinRing {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Glow di belakang avatar */
+        .avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: glowBreath 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes glowBreath {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.15); }
+        }
 
         .profile-avatar {
             position: relative;
-            width: 106px; height: 106px;
+            width: 96px; height: 96px;
             border-radius: 50%;
             overflow: hidden;
             background: #0a0a0a;
+            border: 2px solid rgba(255,255,255,0.9);
             display: flex; align-items: center; justify-content: center;
-            font-size: 42px; font-weight: 900;
-            z-index: 4;
-            transition: transform 0.4s ease;
-            transform-style: preserve-3d;
-            border: 3px solid #050505;
+            font-size: 38px; font-weight: 900;
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(255,255,255,0.25);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .profile-avatar img {
             width: 100%; height: 100%;
@@ -344,58 +258,26 @@
             display: block;
         }
 
-        .sparkle {
-            position: absolute;
-            width: 3px; height: 3px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #fff;
-            animation: sparkleAnim 2s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 6;
-        }
-        .sparkle:nth-child(1) { top: 10%; left: 25%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 78%; left: 82%; animation-delay: 0.5s; }
-        .sparkle:nth-child(3) { top: 8%; left: 72%; animation-delay: 1s; }
-        .sparkle:nth-child(4) { top: 88%; left: 18%; animation-delay: 1.5s; }
-        @keyframes sparkleAnim {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(2); }
-        }
-
         .profile-name {
-            font-size: 26px; font-weight: 900;
+            font-size: 24px; font-weight: 900;
             letter-spacing: 5px; text-transform: uppercase;
-            background: linear-gradient(180deg, #fff 0%, #a1a1aa 100%);
+            background: linear-gradient(180deg, #fff 0%, #888 100%);
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            position: relative;
             margin-top: 4px;
-        }
-        .profile-name::after {
-            content: '';
-            position: absolute; bottom: -8px; left: 50%;
-            transform: translateX(-50%);
-            width: 40px; height: 2px;
-            background: linear-gradient(90deg, transparent, #fff, transparent);
-            animation: nameLine 2s ease-in-out infinite;
-        }
-        @keyframes nameLine {
-            0%, 100% { width: 40px; opacity: 0.6; }
-            50% { width: 80px; opacity: 1; }
         }
 
         .profile-bio {
-            font-size: 13px; color: #a1a1aa;
-            letter-spacing: 0.5px;
-            min-height: 18px;
+            font-size: 12.5px; color: #a1a1aa;
+            letter-spacing: 0.8px;
+            min-height: 16px;
             font-weight: 500;
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .profile-bio::after {
             content: '|';
             color: #fff;
-            animation: blink 0.8s step-end infinite;
+            animation: blink 0.9s step-end infinite;
             margin-left: 2px;
             font-weight: 300;
         }
@@ -403,23 +285,24 @@
 
         .visitor-counter {
             display: inline-flex; align-items: center; gap: 7px;
-            padding: 7px 15px;
+            padding: 6px 13px;
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 50px;
-            font-size: 11px; color: #a1a1aa;
+            font-size: 10.5px; color: #a1a1aa;
             letter-spacing: 1px; font-weight: 600;
+            margin-top: 4px;
         }
         .visitor-counter .dot-live {
             width: 6px; height: 6px;
             background: #22c55e;
             border-radius: 50%;
-            box-shadow: 0 0 10px #22c55e;
+            box-shadow: 0 0 8px #22c55e;
             animation: livePulse 2s ease-in-out infinite;
         }
         @keyframes livePulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.7); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
 
         /* ==========================================
@@ -427,17 +310,14 @@
            ========================================== */
         .video-wrapper {
             width: 100%; height: 200px;
-            border-radius: 22px; overflow: hidden;
+            border-radius: 20px; overflow: hidden;
             position: relative;
             border: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7), 0 0 30px rgba(255,255,255,0.06);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7), 0 0 25px rgba(255,255,255,0.05);
             background: #0a0a0a;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
             animation: fadeInUp 0.9s ease-out;
         }
-        .video-wrapper:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.15); }
-        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; transition: all 0.5s ease; }
-        .video-wrapper:hover video { transform: scale(1.05); }
+        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
         .video-overlay {
             position: absolute; bottom: 0; left: 0;
             width: 100%; height: 55%;
@@ -448,11 +328,11 @@
         /* ==========================================
            LINKS
            ========================================== */
-        .links { width: 100%; display: flex; flex-direction: column; gap: 18px; }
+        .links { width: 100%; display: flex; flex-direction: column; gap: 16px; }
 
         .link-item {
             animation: fadeInUp 0.6s ease-out backwards;
-            display: flex; flex-direction: column; gap: 9px;
+            display: flex; flex-direction: column; gap: 8px;
             position: relative;
         }
 
@@ -473,86 +353,75 @@
         .btn .btn-icon {
             position: relative; z-index: 3;
             display: flex; align-items: center; justify-content: center;
-            width: 30px; height: 30px;
+            width: 28px; height: 28px;
             transition: transform 0.4s ease;
             pointer-events: none;
             font-size: 20px;
+            flex-shrink: 0;
         }
         .btn .btn-icon img {
             width: 100%; height: 100%;
             object-fit: contain;
-            border-radius: 7px;
+            border-radius: 6px;
             display: block;
         }
-
         .btn .btn-text {
             position: relative; z-index: 3;
             transition: all 0.3s ease;
             pointer-events: none;
         }
-        .btn:hover .btn-icon { transform: scale(1.25) rotate(-8deg); }
+        .btn:hover .btn-icon { transform: scale(1.2); }
 
+        /* BADGE - FIXED POSITION (di dalam tombol) */
         .badge {
             position: absolute;
-            top: -8px; right: 16px;
-            padding: 3px 10px;
-            font-size: 9px;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            padding: 3px 9px;
+            font-size: 8.5px;
             font-weight: 900;
             letter-spacing: 1.5px;
             border-radius: 50px;
             z-index: 4;
             text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            animation: badgePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes badgePop {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
         .badge-new { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
         .badge-hot { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
         .badge-mod { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; }
         .badge-vip { background: linear-gradient(135deg, #facc15, #eab308); color: #000; }
 
+        /* Efek shine halus */
         .btn::before {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
             transform: skewX(-20deg);
             transition: left 0.7s ease; z-index: 1;
         }
         .btn:hover::before { left: 150%; }
 
-        .btn::after {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 50px; padding: 2px;
-            background: linear-gradient(45deg, transparent, #fff, transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            opacity: 0; transition: opacity 0.4s ease; z-index: 2;
-        }
-        .btn:hover::after { opacity: 1; }
-
         .btn:hover {
             background: linear-gradient(145deg, #fff, #d4d4d8);
             color: #000;
-            transform: translateY(-5px) scale(1.02);
+            transform: translateY(-4px) scale(1.01);
             box-shadow: 0 20px 40px rgba(255,255,255,0.15);
             border-color: transparent;
         }
+        .btn:hover .badge { box-shadow: 0 2px 12px rgba(0,0,0,0.7); }
 
         .btn.confirm {
             background: linear-gradient(145deg, #fff, #e5e5e5) !important;
             color: #000 !important;
             border-color: #fff !important;
-            box-shadow: 0 0 35px rgba(255,255,255,0.7), 0 15px 35px rgba(0,0,0,0.5) !important;
+            box-shadow: 0 0 30px rgba(255,255,255,0.6), 0 15px 35px rgba(0,0,0,0.5) !important;
             animation: shakeConfirm 0.5s ease;
         }
         @keyframes shakeConfirm {
             0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            40% { transform: translateX(5px); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(4px); }
             60% { transform: translateX(-3px); }
             80% { transform: translateX(3px); }
         }
@@ -567,10 +436,9 @@
         @keyframes rippleAnim { to { transform: scale(5); opacity: 0; } }
 
         .version-label {
-            font-size: 11px; color: #52525b;
+            font-size: 10.5px; color: #52525b;
             letter-spacing: 1.5px; text-align: center;
             font-weight: 600; text-transform: uppercase;
-            padding-left: 4px;
             transition: color 0.3s ease;
         }
         .link-item:hover .version-label { color: #a1a1aa; }
@@ -579,13 +447,13 @@
            TOAST
            ========================================== */
         .toast {
-            position: fixed; bottom: 30px; left: 50%;
+            position: fixed; bottom: 28px; left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: rgba(255,255,255,0.98); color: #000;
-            padding: 13px 26px; border-radius: 50px;
-            font-size: 13px; font-weight: 700;
+            padding: 12px 24px; border-radius: 50px;
+            font-size: 12.5px; font-weight: 700;
             z-index: 999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 30px rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none; white-space: nowrap;
@@ -598,24 +466,19 @@
            ========================================== */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(18px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 400px) {
-            .container { padding-top: 82px; gap: 20px; }
-            .video-wrapper { height: 180px; }
+            .container { padding-top: 78px; gap: 18px; }
+            .video-wrapper { height: 175px; }
             .btn { padding: 16px; font-size: 14px; }
-            .top-nav { padding: 12px 15px; }
-            .avatar-stage { width: 125px; height: 125px; }
-            .profile-avatar { width: 94px; height: 94px; }
-            .avatar-ring { width: 98px; height: 98px; }
-            .profile-name { font-size: 22px; letter-spacing: 4px; }
-            .clock-display { font-size: 11px; padding: 9px 12px; }
-            .loader-stage { width: 140px; height: 140px; }
-            .ring-outer { width: 140px; height: 140px; }
-            .ring-mid { width: 115px; height: 115px; }
-            .ring-inner { width: 90px; height: 90px; }
+            .avatar-wrapper { width: 100px; height: 100px; }
+            .profile-avatar { width: 88px; height: 88px; }
+            .profile-name { font-size: 21px; letter-spacing: 4px; }
+            .badge { font-size: 8px; padding: 2px 7px; right: 12px; }
+            .clock-display { font-size: 11px; padding: 8px 11px; }
         }
     </style>
 </head>
@@ -626,19 +489,14 @@
     <!-- LOADING -->
     <div id="loader">
         <div class="loader-stage">
-            <div class="loader-glow"></div>
             <div class="loader-ring ring-outer"></div>
             <div class="loader-ring ring-mid"></div>
-            <div class="loader-ring ring-inner"></div>
             <div class="loader-logo" id="loaderLogo">⚡</div>
         </div>
-        <div class="loader-bar-wrap">
-            <div class="loader-bar"><div class="loader-bar-inner"></div></div>
-            <div class="loader-text">Loading</div>
-        </div>
+        <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+        <div class="loader-text">Loading</div>
     </div>
 
-    <div class="grid-bg"></div>
     <canvas id="particles-canvas"></canvas>
     <canvas id="confetti-canvas"></canvas>
 
@@ -657,23 +515,14 @@
     </div>
 
     <div class="container">
+        <!-- PROFILE -->
         <div class="profile" id="profileSection">
-            <div class="avatar-stage" id="avatarStage">
-                <div class="orbit-ring orbit-1"><span></span><span></span></div>
-                <div class="orbit-ring orbit-2"><span></span><span></span></div>
-                <div class="orbit-ring orbit-3"><span></span><span></span></div>
-                <div class="pulse-wave"></div>
-                <div class="pulse-wave"></div>
-                <div class="pulse-wave"></div>
+            <div class="avatar-wrapper" id="avatarWrapper">
                 <div class="avatar-ring"></div>
                 <div class="profile-avatar" id="profileAvatar">
                     <span id="profileAvatarFallback">S</span>
                     <img id="profileAvatarImg" style="display:none;" alt="Logo">
                 </div>
-                <div class="sparkle"></div>
-                <div class="sparkle"></div>
-                <div class="sparkle"></div>
-                <div class="sparkle"></div>
             </div>
             <div>
                 <div class="profile-name" id="profileName"></div>
@@ -685,11 +534,13 @@
             </div>
         </div>
 
+        <!-- VIDEO -->
         <div class="video-wrapper">
             <video id="mainVideo" autoplay loop muted playsinline></video>
             <div class="video-overlay"></div>
         </div>
 
+        <!-- LINKS -->
         <div class="links" id="linksContainer"></div>
     </div>
 
@@ -698,18 +549,54 @@
     <script src="data.js"></script>
     <script>
         // ==========================================================
-        //   1. PROXY HELPER - Bypass CORS untuk gambar eksternal
+        //   MULTI-PROXY IMAGE LOADER
+        //   Coba beberapa server proxy sampai gambar berhasil load
         // ==========================================================
-        function proxify(url) {
-            if (!url) return url;
-            // Kalau link sudah dari proxy atau data URI, biarkan
-            if (url.startsWith('data:') || url.startsWith('blob:')) return url;
-            // Pakai weserv.nl proxy untuk bypass CORS
-            return 'https://images.weserv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, ''));
+        function buildProxyList(url) {
+            if (!url) return [];
+            if (url.startsWith('data:') || url.startsWith('blob:')) return [url];
+            const clean = url.replace(/^https?:\/\//, '');
+            const encoded = encodeURIComponent(url);
+            return [
+                url,                                                                    // 1. Direct
+                'https://images.weserv.nl/?url=' + clean,                               // 2. wsrv.nl
+                'https://api.allorigins.win/raw?url=' + encoded,                        // 3. allorigins
+                'https://corsproxy.io/?' + encoded,                                     // 4. corsproxy
+                'https://api.codetabs.com/v1/proxy?quest=' + encoded                    // 5. codetabs
+            ];
+        }
+
+        function loadImageWithFallback(url, onSuccess, onError) {
+            const proxies = buildProxyList(url);
+            let index = 0;
+            function tryNext() {
+                if (index >= proxies.length) { onError(); return; }
+                const testUrl = proxies[index++];
+                const img = new Image();
+                let done = false;
+                const timer = setTimeout(() => {
+                    if (!done) { done = true; tryNext(); }
+                }, 5000);
+                img.onload = () => {
+                    if (done) return;
+                    done = true;
+                    clearTimeout(timer);
+                    if (img.naturalWidth < 5) { tryNext(); return; }
+                    onSuccess(testUrl);
+                };
+                img.onerror = () => {
+                    if (done) return;
+                    done = true;
+                    clearTimeout(timer);
+                    tryNext();
+                };
+                img.src = testUrl;
+            }
+            tryNext();
         }
 
         // ==========================================================
-        //   2. TEMA
+        //   TEMA
         // ==========================================================
         const theme = LINK_DATA.theme || {};
         if (theme.background) document.documentElement.style.setProperty('--bg', theme.background);
@@ -717,60 +604,45 @@
         document.body.style.background = theme.background || '#050505';
 
         // ==========================================================
-        //   3. PROFILE
+        //   PROFILE
         // ==========================================================
         const profile = LINK_DATA.profile || {};
         if (profile.enabled) {
             document.getElementById('profileSection').classList.add('active');
             document.getElementById('profileName').textContent = profile.name || '';
-            document.getElementById('profileBio').textContent = profile.bio || '';
+            const avatarUrl = profile.avatar || '';
+            const initial = (profile.name || 'S').charAt(0);
 
             const avatarImg = document.getElementById('profileAvatarImg');
             const avatarFallback = document.getElementById('profileAvatarFallback');
             const loaderLogo = document.getElementById('loaderLogo');
-            const avatarUrl = profile.avatar || '';
-            const initial = (profile.name || 'S').charAt(0);
 
-            function loadImage(url, onSuccess, onError) {
-                if (!url) { onError(); return; }
-                const img = new Image();
-                img.onload = () => onSuccess(img.src);
-                img.onerror = () => onError();
-                img.src = proxify(url); // <-- Pakai proxy
-            }
-
-            // Load avatar in profile
-            loadImage(avatarUrl,
-                (src) => {
-                    avatarImg.src = src;
+            // Load avatar dengan fallback
+            loadImageWithFallback(avatarUrl,
+                (workingUrl) => {
+                    avatarImg.src = workingUrl;
                     avatarImg.style.display = 'block';
                     avatarFallback.style.display = 'none';
+                    // Loader logo juga pakai URL yang working
+                    const lImg = document.createElement('img');
+                    lImg.src = workingUrl;
+                    lImg.style.width = '100%';
+                    lImg.style.height = '100%';
+                    lImg.style.objectFit = 'cover';
+                    loaderLogo.innerHTML = '';
+                    loaderLogo.appendChild(lImg);
                 },
                 () => {
+                    // Semua proxy gagal - pakai inisial
                     avatarImg.style.display = 'none';
                     avatarFallback.style.display = 'flex';
-                    avatarFallback.textContent = initial;
                     avatarFallback.style.alignItems = 'center';
                     avatarFallback.style.justifyContent = 'center';
                     avatarFallback.style.width = '100%';
                     avatarFallback.style.height = '100%';
-                    avatarFallback.style.fontSize = '42px';
+                    avatarFallback.textContent = initial;
+                    loaderLogo.textContent = initial;
                 }
-            );
-
-            // Load avatar in loader
-            loadImage(avatarUrl,
-                (src) => {
-                    loaderLogo.innerHTML = '';
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.style.width = '100%';
-                    img.style.height = '100%';
-                    img.style.objectFit = 'cover';
-                    img.style.display = 'block';
-                    loaderLogo.appendChild(img);
-                },
-                () => { loaderLogo.textContent = '⚡'; }
             );
 
             // Typing effect
@@ -780,46 +652,33 @@
                 bioEl.textContent = '';
                 let i = 0;
                 setTimeout(() => {
-                    const typeInterval = setInterval(() => {
+                    const t = setInterval(() => {
                         bioEl.textContent = text.substring(0, i + 1);
                         i++;
-                        if (i >= text.length) clearInterval(typeInterval);
+                        if (i >= text.length) clearInterval(t);
                     }, 60);
-                }, 2500);
-            }
-
-            // 3D tilt
-            const stage = document.getElementById('avatarStage');
-            const avatar = document.getElementById('profileAvatar');
-            if (window.matchMedia('(hover: hover)').matches) {
-                stage.addEventListener('mousemove', (e) => {
-                    const rect = stage.getBoundingClientRect();
-                    const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
-                    const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-                    avatar.style.transform = `rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.06)`;
-                });
-                stage.addEventListener('mouseleave', () => { avatar.style.transform = ''; });
+                }, 2400);
             }
         }
 
         // ==========================================================
-        //   4. VISITOR COUNTER
+        //   VISITOR COUNTER
         // ==========================================================
         (function() {
             let count = parseInt(localStorage.getItem('visitor_count') || '0') + 1;
             localStorage.setItem('visitor_count', count);
             const el = document.getElementById('visitorCount');
-            let current = 0;
+            let cur = 0;
             const step = Math.max(1, Math.ceil(count / 30));
-            const interval = setInterval(() => {
-                current += step;
-                if (current >= count) { current = count; clearInterval(interval); }
-                el.textContent = current.toLocaleString();
+            const iv = setInterval(() => {
+                cur += step;
+                if (cur >= count) { cur = count; clearInterval(iv); }
+                el.textContent = cur.toLocaleString();
             }, 30);
         })();
 
         // ==========================================================
-        //   5. AUDIO
+        //   AUDIO
         // ==========================================================
         let audioCtx = null, soundEnabled = true;
         function ensureAudio() {
@@ -852,7 +711,7 @@
         function vibrate(ms = 40) { if (navigator.vibrate) navigator.vibrate(ms); }
 
         // ==========================================================
-        //   6. VIDEO
+        //   VIDEO
         // ==========================================================
         const videoEl = document.getElementById('mainVideo');
         const sourceEl = document.createElement('source');
@@ -862,7 +721,7 @@
         videoEl.play().catch(() => {});
 
         // ==========================================================
-        //   7. RENDER LINKS
+        //   RENDER LINKS
         // ==========================================================
         const linksContainer = document.getElementById('linksContainer');
         const toast = document.getElementById('toast');
@@ -881,23 +740,23 @@
             a.className = 'btn';
             a.dataset.name = link.name.toLowerCase();
 
-            if (link.badge) {
-                const badge = document.createElement('span');
-                badge.className = 'badge badge-' + link.badge.toLowerCase();
-                badge.textContent = link.badge;
-                a.appendChild(badge);
-            }
-
+            // ICON
             const iconWrap = document.createElement('span');
             iconWrap.className = 'btn-icon';
 
             if (link.icon) {
                 if (isImage(link.icon)) {
-                    const img = document.createElement('img');
-                    img.src = proxify(link.icon); // <-- Pakai proxy
-                    img.alt = '';
-                    img.onerror = () => { iconWrap.innerHTML = ''; iconWrap.textContent = '✦'; };
-                    iconWrap.appendChild(img);
+                    // Pakai multi-fallback juga untuk icon
+                    loadImageWithFallback(link.icon,
+                        (workingUrl) => {
+                            const img = document.createElement('img');
+                            img.src = workingUrl;
+                            img.alt = '';
+                            iconWrap.innerHTML = '';
+                            iconWrap.appendChild(img);
+                        },
+                        () => { iconWrap.textContent = '✦'; }
+                    );
                 } else {
                     iconWrap.textContent = link.icon;
                 }
@@ -905,12 +764,21 @@
                 iconWrap.textContent = '✦';
             }
 
+            // TEXT
             const span = document.createElement('span');
             span.className = 'btn-text';
             span.textContent = link.name;
 
             a.appendChild(iconWrap);
             a.appendChild(span);
+
+            // BADGE (di dalam tombol, posisi kanan)
+            if (link.badge) {
+                const badge = document.createElement('span');
+                badge.className = 'badge badge-' + link.badge.toLowerCase();
+                badge.textContent = link.badge;
+                a.appendChild(badge);
+            }
 
             a.addEventListener('mouseenter', soundHover);
             a.addEventListener('touchstart', soundHover, { passive: true });
@@ -920,7 +788,7 @@
                     const rect = a.getBoundingClientRect();
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
-                    a.style.transform = `translateY(-5px) scale(1.02) translate(${x * 0.06}px, ${y * 0.1}px)`;
+                    a.style.transform = `translateY(-4px) scale(1.01) translate(${x * 0.05}px, ${y * 0.08}px)`;
                 });
                 a.addEventListener('mouseleave', () => { a.style.transform = ''; });
             }
@@ -931,25 +799,22 @@
             const originalText = link.name;
 
             // Long-press copy
-            a.addEventListener('mousedown', () => {
+            const startPress = () => {
                 pressTimer = setTimeout(() => {
                     navigator.clipboard.writeText(link.url).then(() => {
                         showToast('📋 Link berhasil di-copy!');
                         vibrate(60);
                     }).catch(() => {});
                 }, 700);
-            });
-            a.addEventListener('mouseup', () => clearTimeout(pressTimer));
-            a.addEventListener('mouseleave', () => clearTimeout(pressTimer));
-            a.addEventListener('touchstart', () => {
-                pressTimer = setTimeout(() => {
-                    navigator.clipboard.writeText(link.url).then(() => {
-                        showToast('📋 Link berhasil di-copy!');
-                        vibrate(60);
-                    }).catch(() => {});
-                }, 700);
-            }, { passive: true });
-            a.addEventListener('touchend', () => clearTimeout(pressTimer));
+            };
+            const cancelPress = () => clearTimeout(pressTimer);
+
+            a.addEventListener('mousedown', startPress);
+            a.addEventListener('mouseup', cancelPress);
+            a.addEventListener('mouseleave', cancelPress);
+            a.addEventListener('touchstart', startPress, { passive: true });
+            a.addEventListener('touchend', cancelPress);
+            a.addEventListener('touchcancel', cancelPress);
 
             a.addEventListener('click', function(e) {
                 if (!confirmState) {
@@ -959,14 +824,14 @@
                     vibrate(30);
 
                     const rect = a.getBoundingClientRect();
-                    const x = (e.clientX || rect.left + rect.width/2) - rect.left;
-                    const y = (e.clientY || rect.top + rect.height/2) - rect.top;
+                    const x = (e.clientX || rect.left + rect.width / 2) - rect.left;
+                    const y = (e.clientY || rect.top + rect.height / 2) - rect.top;
                     const ripple = document.createElement('span');
                     ripple.className = 'ripple';
                     const size = Math.max(rect.width, rect.height);
                     ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = (x - size/2) + 'px';
-                    ripple.style.top = (y - size/2) + 'px';
+                    ripple.style.left = (x - size / 2) + 'px';
+                    ripple.style.top = (y - size / 2) + 'px';
                     a.appendChild(ripple);
                     setTimeout(() => ripple.remove(), 800);
 
@@ -1001,7 +866,7 @@
         });
 
         // ==========================================================
-        //   8. TOAST
+        //   TOAST
         // ==========================================================
         let toastTimer = null;
         function showToast(msg) {
@@ -1013,7 +878,7 @@
         function hideToast() { toast.classList.remove('show'); }
 
         // ==========================================================
-        //   9. CONFETTI
+        //   CONFETTI
         // ==========================================================
         const confettiCanvas = document.getElementById('confetti-canvas');
         const confettiCtx = confettiCanvas.getContext('2d');
@@ -1037,10 +902,8 @@
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
                     size: Math.random() * 4 + 2,
-                    color: ['#ffffff', '#a1a1aa', '#d4d4d8', '#71717a'][Math.floor(Math.random()*4)],
-                    life: 1,
-                    gravity: 0.15,
-                    friction: 0.96,
+                    color: ['#ffffff', '#a1a1aa', '#d4d4d8', '#71717a'][Math.floor(Math.random() * 4)],
+                    life: 1, gravity: 0.15, friction: 0.96,
                     rotation: Math.random() * 360,
                     rotationSpeed: (Math.random() - 0.5) * 15
                 });
@@ -1062,7 +925,7 @@
                 confettiCtx.rotate(p.rotation * Math.PI / 180);
                 confettiCtx.globalAlpha = p.life;
                 confettiCtx.fillStyle = p.color;
-                confettiCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
                 confettiCtx.restore();
             }
             requestAnimationFrame(animateConfetti);
@@ -1070,7 +933,7 @@
         animateConfetti();
 
         // ==========================================================
-        //   10. SEARCH
+        //   SEARCH
         // ==========================================================
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const keyword = e.target.value.toLowerCase();
@@ -1081,7 +944,7 @@
         });
 
         // ==========================================================
-        //   11. MENU
+        //   MENU
         // ==========================================================
         document.getElementById('menuBtn').addEventListener('click', () => {
             soundClick();
@@ -1090,7 +953,7 @@
         });
 
         // ==========================================================
-        //   12. CLOCK
+        //   CLOCK
         // ==========================================================
         function updateClock() {
             const now = new Date();
@@ -1102,7 +965,7 @@
         setInterval(updateClock, 1000);
 
         // ==========================================================
-        //   13. SCROLL PROGRESS
+        //   SCROLL PROGRESS
         // ==========================================================
         window.addEventListener('scroll', () => {
             const scrollTop = window.scrollY;
@@ -1112,13 +975,13 @@
         });
 
         // ==========================================================
-        //   14. PARTIKEL
+        //   PARTIKEL
         // ==========================================================
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
         let shootingStars = [];
-        const numberOfParticles = 90;
+        const numberOfParticles = 80;
         const maxDistance = 130;
         const mouse = { x: null, y: null, radius: 120 };
 
@@ -1129,7 +992,7 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
+                this.size = Math.random() * 2.2 + 0.5;
                 this.speedX = Math.random() * 0.8 - 0.4;
                 this.speedY = Math.random() * 0.8 - 0.4;
                 this.opacity = Math.random() * 0.6 + 0.2;
@@ -1144,13 +1007,13 @@
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < mouse.radius) {
                         const force = (mouse.radius - dist) / mouse.radius;
-                        this.x += (dx / dist) * force * 3;
-                        this.y += (dy / dist) * force * 3;
+                        this.x += (dx / dist) * force * 2.5;
+                        this.y += (dy / dist) * force * 2.5;
                     }
                 }
             }
             draw() {
-                if (this.glow) { ctx.shadowBlur = 15; ctx.shadowColor = 'rgba(255,255,255,0.9)'; }
+                if (this.glow) { ctx.shadowBlur = 12; ctx.shadowColor = 'rgba(255,255,255,0.9)'; }
                 else { ctx.shadowBlur = 0; }
                 ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
                 ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
@@ -1228,11 +1091,11 @@
         init(); animate();
 
         // ==========================================================
-        //   15. HIDE LOADER
+        //   HIDE LOADER
         // ==========================================================
         setTimeout(() => {
             document.getElementById('loader').classList.add('hide');
-        }, 2500);
+        }, 2400);
     </script>
 
 </body>
