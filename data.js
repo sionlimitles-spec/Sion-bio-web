@@ -10,7 +10,6 @@ const LINK_DATA = {
     // Cara nambah: copy satu baris, taruh di atas tanda ] dan kasih koma
     links: [
         { name: "TIKTOK YOU", url: "https://www.mediafire.com/file/q0ayd515477cywm/TikTok_You-4.4-(46.8.3)+(1).apk/file" },
-        { name: "LINK KEDUA", url: "https://youtube.com" },
-        { name: "LINK KETIGA", url: "https://github.com" }
+        
     ]
 };
