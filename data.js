@@ -4,7 +4,7 @@
 
 const LINK_DATA = {
     // 1. Link Video (harus .mp4)
-    videoUrl: "https://cdn.pixabay.com/video/2023/03/30/156649-813009279_large.mp4",
+    videoUrl: "https://d.top4top.io/m_3938niq360.mp4",
 
     // 2. Daftar Link Tombol
     // Cara nambah: copy satu baris, taruh di atas tanda ] dan kasih koma
