@@ -9,7 +9,7 @@ const LINK_DATA = {
     },
     profile: {
         enabled: true,
-        avatar: ""https://d.top4top.io/p_39389vhb90.png",
+        avatar: "https://d.top4top.io/p_39389vhb90.png",
         name: "SHIRIUKA",
         bio: "Welcome to my link ✦",
         typing: true
