@@ -13,7 +13,7 @@ const LINK_DATA = {
     profile: {
         enabled: true,
         avatar: "https://ui-avatars.com/api/?name=SION&background=000&color=fff&size=200",
-        name: "SION",
+        name: "SHIRIUKA",
         bio: "Welcome to my link ✦"
     },
 
