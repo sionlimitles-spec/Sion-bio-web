@@ -6,17 +6,16 @@
     <title>Bio Link</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --bg: #050505;
+            --accent: #ffffff;
         }
 
         body {
-            background-color: #050505;
-            color: #ffffff;
+            background-color: var(--bg);
+            color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
@@ -24,302 +23,336 @@
             align-items: center;
         }
 
-        /* --- CANVAS PARTIKEL --- */
-        #particles-canvas {
+        /* ===== LOADING SCREEN ===== */
+        #loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #loader.hide { opacity: 0; visibility: hidden; }
+
+        .loader-logo {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            box-shadow: 0 0 30px var(--accent);
+            animation: pulseLogo 1.5s ease-in-out infinite;
+        }
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px var(--accent); }
         }
 
-        /* --- TOP NAV --- */
+        .loader-bar {
+            width: 180px; height: 2px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .loader-bar-inner {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            animation: loadBar 1.8s ease forwards;
+            box-shadow: 0 0 15px var(--accent);
+        }
+        @keyframes loadBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .loader-text {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        /* ===== CANVAS ===== */
+        #particles-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ===== GRID BACKGROUND ===== */
+        .grid-bg {
+            position: fixed; inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+        }
+
+        /* ===== TOP NAV ===== */
         .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: 15px 20px;
-            z-index: 10;
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: center;
+            padding: 15px 20px; z-index: 10;
             background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
-
-        .nav-content {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+        .nav-content { width: 100%; max-width: 480px; display: flex; gap: 12px; align-items: center; }
 
         .search-box {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            padding: 10px 18px;
+            flex: 1; display: flex; align-items: center;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px; padding: 10px 18px;
             transition: all 0.3s ease;
         }
-
         .search-box:focus-within {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
             box-shadow: 0 0 20px rgba(255,255,255,0.15);
         }
-
         .search-box svg { width: 18px; height: 18px; fill: #a1a1aa; margin-right: 10px; flex-shrink: 0; }
         .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 14px; }
         .search-box input::placeholder { color: #71717a; }
 
         .menu-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
         }
-
-        .menu-btn:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05) rotate(90deg); }
+        .menu-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.05) rotate(90deg); }
         .menu-btn svg { width: 20px; height: 20px; fill: #fff; }
 
-        /* --- KONTAINER --- */
+        /* ===== CONTAINER ===== */
         .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 480px;
+            position: relative; z-index: 1;
+            width: 100%; max-width: 480px;
             padding: 80px 20px 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+            display: flex; flex-direction: column; gap: 22px;
             animation: fadeIn 1s ease-out;
         }
 
-        /* --- VIDEO --- */
-        .video-wrapper {
-            width: 100%;
-            height: 220px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255,255,255,0.08);
-            background: #111;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        /* ===== PROFILE ===== */
+        .profile {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+            animation: fadeInUp 0.8s ease-out;
         }
+        .profile.active { display: flex; }
 
-        .video-wrapper::before {
+        .profile-avatar-wrap {
+            position: relative;
+            width: 95px; height: 95px;
+        }
+        .profile-avatar-wrap::before {
             content: '';
             position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            border-radius: 20px;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent, rgba(255,255,255,0.3), transparent);
-            background-size: 300% 300%;
-            z-index: -1;
-            animation: borderGlow 4s linear infinite;
-            opacity: 0.5;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--accent), transparent, var(--accent));
+            animation: spinRing 4s linear infinite;
+            filter: blur(6px);
+            opacity: 0.7;
         }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
 
-        @keyframes borderGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .video-wrapper:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255,255,255,0.2);
-        }
-
-        .video-wrapper video {
-            width: 100%;
-            height: 100%;
+        .profile-avatar {
+            position: relative;
+            width: 100%; height: 100%;
+            border-radius: 50%;
             object-fit: cover;
-            filter: none;
-            transition: all 0.5s ease;
+            border: 2px solid rgba(255,255,255,0.8);
+            background: #111;
         }
 
-        .video-wrapper:hover video { transform: scale(1.05); }
+        .profile-name {
+            font-size: 22px; font-weight: 900;
+            letter-spacing: 3px; text-transform: uppercase;
+            background: linear-gradient(180deg, #fff, #888);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .profile-bio { font-size: 13px; color: #888; letter-spacing: 0.5px; }
 
+        /* ===== VIDEO ===== */
+        .video-wrapper {
+            width: 100%; height: 220px;
+            border-radius: 20px; overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 25px rgba(255,255,255,0.08);
+            background: #111;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: fadeInUp 0.9s ease-out;
+        }
+        .video-wrapper:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.2); }
+        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; transition: all 0.5s ease; }
+        .video-wrapper:hover video { transform: scale(1.05); }
         .video-overlay {
-            position: absolute;
-            bottom: 0; left: 0;
+            position: absolute; bottom: 0; left: 0;
             width: 100%; height: 60%;
-            background: linear-gradient(to top, #050505, transparent);
+            background: linear-gradient(to top, var(--bg), transparent);
             pointer-events: none;
         }
 
-        /* --- LINKS --- */
-        .links {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        /* ===== LINKS ===== */
+        .links { width: 100%; display: flex; flex-direction: column; gap: 15px; }
 
         .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 18px 24px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: 100%; padding: 18px 24px;
             background: linear-gradient(145deg, #111111, #1a1a1a);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 50px;
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            letter-spacing: 1px;
+            color: #fff; text-decoration: none;
+            font-weight: 700; font-size: 15px; letter-spacing: 1px;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 10px 20px rgba(0,0,0,0.5);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
+            position: relative; overflow: hidden;
+            cursor: pointer; user-select: none;
             animation: fadeInUp 0.6s ease-out backwards;
-            user-select: none;
+            transform-style: preserve-3d;
         }
 
+        .btn .btn-icon {
+            position: relative; z-index: 3;
+            font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px;
+            transition: transform 0.4s ease;
+            pointer-events: none;
+        }
+        .btn .btn-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+
         .btn .btn-text {
-            position: relative;
-            z-index: 3;
+            position: relative; z-index: 3;
             transition: all 0.3s ease;
             pointer-events: none;
         }
 
-        /* Efek Shine / Kilauan yang bergerak */
+        .btn:hover .btn-icon { transform: scale(1.25) rotate(-8deg); }
+
+        /* Shine */
         .btn::before {
             content: '';
-            position: absolute;
-            top: 0; left: -100%;
+            position: absolute; top: 0; left: -100%;
             width: 60%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
             transform: skewX(-20deg);
             transition: left 0.7s ease;
             z-index: 1;
         }
-
         .btn:hover::before { left: 150%; }
 
         /* Border glow */
         .btn::after {
             content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 50px;
-            padding: 2px;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.5), transparent);
+            position: absolute; inset: 0;
+            border-radius: 50px; padding: 2px;
+            background: linear-gradient(45deg, transparent, var(--accent), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 2;
+            opacity: 0; transition: opacity 0.4s ease; z-index: 2;
         }
-
         .btn:hover::after { opacity: 1; }
 
         .btn:hover {
-            background: linear-gradient(145deg, #ffffff, #d4d4d8);
-            color: #000000;
+            background: linear-gradient(145deg, #fff, #d4d4d8);
+            color: #000;
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(255,255,255,0.15);
             border-color: transparent;
         }
 
-        /* --- STATE: CONFIRM (Klik Pertama) --- */
+        /* Confirm state */
         .btn.confirm {
-            background: linear-gradient(145deg, #ffffff, #e5e5e5) !important;
-            color: #000000 !important;
-            border-color: #ffffff !important;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 15px 35px rgba(0, 0, 0, 0.5) !important;
-            transform: scale(1.03) !important;
+            background: linear-gradient(145deg, #fff, #e5e5e5) !important;
+            color: #000 !important;
+            border-color: #fff !important;
+            box-shadow: 0 0 30px rgba(255,255,255,0.7), 0 15px 35px rgba(0,0,0,0.5) !important;
             animation: shakeConfirm 0.5s ease;
         }
-
         @keyframes shakeConfirm {
-            0%, 100% { transform: scale(1.03) translateX(0); }
-            20% { transform: scale(1.03) translateX(-4px); }
-            40% { transform: scale(1.03) translateX(4px); }
-            60% { transform: scale(1.03) translateX(-3px); }
-            80% { transform: scale(1.03) translateX(3px); }
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-3px); }
+            80% { transform: translateX(3px); }
         }
 
-        /* --- RIPPLE EFFECT --- */
+        /* Ripple */
         .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
             transform: scale(0);
-            animation: rippleAnim 0.7s ease-out;
-            pointer-events: none;
-            z-index: 2;
+            animation: rippleAnim 0.8s ease-out;
+            pointer-events: none; z-index: 2;
         }
+        @keyframes rippleAnim { to { transform: scale(5); opacity: 0; } }
 
-        @keyframes rippleAnim {
-            to { transform: scale(4); opacity: 0; }
-        }
-
-        /* --- TOAST NOTIFICATION --- */
+        /* ===== TOAST ===== */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
+            position: fixed; bottom: 30px; left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(255, 255, 255, 0.95);
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
+            background: rgba(255,255,255,0.95); color: #000;
+            padding: 12px 24px; border-radius: 50px;
+            font-size: 13px; font-weight: 700;
             z-index: 999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 25px rgba(255,255,255,0.3);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
             white-space: nowrap;
+            display: flex; align-items: center; gap: 8px;
         }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* --- ANIMASI --- */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
+        /* ===== ANIMASI ===== */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 400px) {
-            .container { padding-top: 75px; gap: 20px; }
+            .container { padding-top: 75px; gap: 18px; }
             .video-wrapper { height: 180px; }
             .btn { padding: 15px; font-size: 14px; }
             .top-nav { padding: 12px 15px; }
+            .profile-avatar-wrap { width: 80px; height: 80px; }
+            .profile-name { font-size: 18px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- LOADING -->
+    <div id="loader">
+        <div class="loader-logo" id="loaderLogo">⚡</div>
+        <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <div class="grid-bg"></div>
     <canvas id="particles-canvas"></canvas>
 
     <!-- TOP NAV -->
@@ -336,69 +369,112 @@
     </div>
 
     <div class="container">
+        <!-- PROFILE (opsional) -->
+        <div class="profile" id="profileSection">
+            <div class="profile-avatar-wrap">
+                <img class="profile-avatar" id="profileAvatar" alt="Avatar">
+            </div>
+            <div>
+                <div class="profile-name" id="profileName"></div>
+                <div class="profile-bio" id="profileBio"></div>
+            </div>
+        </div>
+
+        <!-- VIDEO -->
         <div class="video-wrapper">
             <video id="mainVideo" autoplay loop muted playsinline></video>
             <div class="video-overlay"></div>
         </div>
+
+        <!-- LINKS -->
         <div class="links" id="linksContainer"></div>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast">Klik sekali lagi untuk membuka 🔗</div>
+    <div class="toast" id="toast"><span>👆</span> Klik sekali lagi untuk membuka</div>
 
     <script src="data.js"></script>
-
     <script>
-        // ==========================================
-        //   1. AUDIO KLIK (Dibuat pakai Web Audio API)
-        // ==========================================
+        // ==========================================================
+        //   1. TERAPKAN TEMA
+        // ==========================================================
+        const theme = LINK_DATA.theme || {};
+        if (theme.background) document.documentElement.style.setProperty('--bg', theme.background);
+        if (theme.accent) document.documentElement.style.setProperty('--accent', theme.accent);
+        document.body.style.background = theme.background || '#050505';
+
+        // ==========================================================
+        //   2. PROFILE
+        // ==========================================================
+        const profile = LINK_DATA.profile || {};
+        if (profile.enabled) {
+            document.getElementById('profileSection').classList.add('active');
+            document.getElementById('profileAvatar').src = profile.avatar || '';
+            document.getElementById('profileName').textContent = profile.name || '';
+            document.getElementById('profileBio').textContent = profile.bio || '';
+        }
+
+        // ==========================================================
+        //   3. AUDIO ENGINE (Web Audio API - tanpa file)
+        // ==========================================================
         let audioCtx = null;
-        function playClickSound() {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.15);
-            } catch(e) { console.log('Audio error:', e); }
+        let soundEnabled = true;
+
+        function ensureAudio() {
+            if (!audioCtx) {
+                try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+                catch(e) { soundEnabled = false; }
+            }
+            return audioCtx;
         }
 
-        function playConfirmSound() {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                [0, 0.08].forEach((delay, i) => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(i === 0 ? 1200 : 1600, audioCtx.currentTime + delay);
-                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime + delay);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + 0.1);
-                    osc.start(audioCtx.currentTime + delay);
-                    osc.stop(audioCtx.currentTime + delay + 0.1);
-                });
-            } catch(e) { console.log('Audio error:', e); }
+        function tone(freq, dur, type = 'sine', vol = 0.15, delay = 0) {
+            if (!soundEnabled) return;
+            const ctx = ensureAudio();
+            if (!ctx) return;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.type = type;
+            const t = ctx.currentTime + delay;
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0, t);
+            gain.gain.linearRampToValueAtTime(vol, t + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+            osc.start(t);
+            osc.stop(t + dur);
         }
 
-        // ==========================================
-        //   2. RENDER VIDEO & LINK DARI data.js
-        // ==========================================
+        function soundHover() { tone(1800, 0.05, 'sine', 0.04); }
+        function soundClick() {
+            tone(880, 0.1, 'sine', 0.15);
+            tone(1320, 0.08, 'triangle', 0.08, 0.02);
+        }
+        function soundConfirm() {
+            tone(880, 0.12, 'sine', 0.15);
+            tone(1320, 0.15, 'sine', 0.12, 0.08);
+            tone(1760, 0.25, 'sine', 0.1, 0.16);
+        }
+        function soundError() { tone(220, 0.2, 'sawtooth', 0.1); }
+
+        // ==========================================================
+        //   4. RENDER VIDEO
+        // ==========================================================
         const videoEl = document.getElementById('mainVideo');
         const sourceEl = document.createElement('source');
         sourceEl.src = LINK_DATA.videoUrl;
         sourceEl.type = 'video/mp4';
         videoEl.appendChild(sourceEl);
+        videoEl.play().catch(() => {});
 
+        // ==========================================================
+        //   5. RENDER LINKS + ICON + KLIK 2X + MAGNETIC + SOUND
+        // ==========================================================
         const linksContainer = document.getElementById('linksContainer');
         const toast = document.getElementById('toast');
+
+        function isImage(src) {
+            return /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(src);
+        }
 
         LINK_DATA.links.forEach((link, index) => {
             const a = document.createElement('a');
@@ -407,31 +483,63 @@
             a.rel = 'noopener noreferrer';
             a.className = 'btn';
             a.dataset.name = link.name.toLowerCase();
-            a.style.animationDelay = (0.3 + (index * 0.1)) + 's';
+            a.style.animationDelay = (0.3 + (index * 0.08)) + 's';
 
+            // ICON
+            const iconWrap = document.createElement('span');
+            iconWrap.className = 'btn-icon';
+            if (link.icon) {
+                if (isImage(link.icon)) {
+                    const img = document.createElement('img');
+                    img.src = link.icon;
+                    img.alt = '';
+                    iconWrap.appendChild(img);
+                } else {
+                    iconWrap.textContent = link.icon;
+                }
+            } else {
+                iconWrap.textContent = '✦';
+            }
+
+            // TEXT
             const span = document.createElement('span');
             span.className = 'btn-text';
             span.textContent = link.name;
+
+            a.appendChild(iconWrap);
             a.appendChild(span);
 
-            // --- SISTEM KLIK 2X ---
+            // Hover sound
+            a.addEventListener('mouseenter', soundHover);
+            a.addEventListener('touchstart', soundHover, { passive: true });
+
+            // Magnetic effect (desktop)
+            if (window.matchMedia('(hover: hover)').matches) {
+                a.addEventListener('mousemove', (e) => {
+                    const rect = a.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    a.style.transform = `translateY(-5px) scale(1.02) translate(${x * 0.08}px, ${y * 0.12}px)`;
+                });
+                a.addEventListener('mouseleave', () => { a.style.transform = ''; });
+            }
+
+            // Klik 2x
             let confirmState = false;
             let resetTimer = null;
-            let originalText = link.name;
+            const originalText = link.name;
 
             a.addEventListener('click', function(e) {
-                // Jika belum confirm, tahan klik pertama
                 if (!confirmState) {
                     e.preventDefault();
                     confirmState = true;
 
-                    // Efek suara
-                    playClickSound();
+                    soundClick();
 
-                    // Ripple effect di posisi klik
+                    // Ripple
                     const rect = a.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
+                    const x = (e.clientX || rect.left + rect.width/2) - rect.left;
+                    const y = (e.clientY || rect.top + rect.height/2) - rect.top;
                     const ripple = document.createElement('span');
                     ripple.className = 'ripple';
                     const size = Math.max(rect.width, rect.height);
@@ -439,14 +547,12 @@
                     ripple.style.left = (x - size/2) + 'px';
                     ripple.style.top = (y - size/2) + 'px';
                     a.appendChild(ripple);
-                    setTimeout(() => ripple.remove(), 700);
+                    setTimeout(() => ripple.remove(), 800);
 
-                    // Ubah tampilan
                     a.classList.add('confirm');
                     span.textContent = '⚠️ KLIK LAGI UNTUK BUKA';
                     toast.classList.add('show');
 
-                    // Auto reset kalau gak diklik lagi
                     clearTimeout(resetTimer);
                     resetTimer = setTimeout(() => {
                         confirmState = false;
@@ -454,48 +560,43 @@
                         span.textContent = originalText;
                         toast.classList.remove('show');
                     }, 3000);
-
                 } else {
-                    // Klik kedua: buka link
-                    playConfirmSound();
+                    soundConfirm();
                     toast.classList.remove('show');
-                    // Biarkan browser membuka link secara natural (target _blank)
                 }
             });
 
             linksContainer.appendChild(a);
         });
 
-        // ==========================================
-        //   3. FITUR SEARCH
-        // ==========================================
+        // ==========================================================
+        //   6. SEARCH
+        // ==========================================================
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const keyword = e.target.value.toLowerCase();
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => {
-                if (btn.dataset.name.includes(keyword)) {
-                    btn.style.display = 'flex';
-                } else {
-                    btn.style.display = 'none';
-                }
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.style.display = btn.dataset.name.includes(keyword) ? 'flex' : 'none';
             });
         });
 
-        // ==========================================
-        //   4. MENU BUTTON (Scroll to top)
-        // ==========================================
-        document.getElementById('menuBtn').addEventListener('click', function() {
+        // ==========================================================
+        //   7. MENU BUTTON
+        // ==========================================================
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            soundClick();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // ==========================================
-        //   5. ANIMASI PARTIKEL
-        // ==========================================
+        // ==========================================================
+        //   8. PARTIKEL INTERAKTIF + SHOOTING STARS
+        // ==========================================================
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
+        let shootingStars = [];
         const numberOfParticles = 90;
         const maxDistance = 130;
+        const mouse = { x: null, y: null, radius: 120 };
 
         function setCanvasSize() {
             canvas.width = window.innerWidth;
@@ -507,26 +608,41 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
                 this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
+                this.speedX = Math.random() * 0.8 - 0.4;
+                this.speedY = Math.random() * 0.8 - 0.4;
                 this.opacity = Math.random() * 0.6 + 0.2;
-                this.glow = Math.random() > 0.8; // 20% partikel jadi glowing
+                this.glow = Math.random() > 0.8;
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
+
                 if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+                // Repel dari mouse/touch
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        this.x += (dx / dist) * force * 3;
+                        this.y += (dy / dist) * force * 3;
+                    }
+                }
             }
             draw() {
                 if (this.glow) {
                     ctx.shadowBlur = 15;
-                    ctx.shadowColor = 'rgba(255,255,255,0.8)';
+                    ctx.shadowColor = 'rgba(255,255,255,0.9)';
                 } else {
                     ctx.shadowBlur = 0;
                 }
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -534,22 +650,55 @@
             }
         }
 
+        class ShootingStar {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.len = Math.random() * 120 + 80;
+                this.speed = Math.random() * 6 + 6;
+                this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.3;
+                this.opacity = 0.7;
+            }
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.opacity -= 0.008;
+                if (this.y > canvas.height + 50 || this.opacity <= 0) this.reset();
+            }
+            draw() {
+                const tailX = this.x - Math.cos(this.angle) * this.len;
+                const tailY = this.y - Math.sin(this.angle) * this.len;
+                const grad = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
+                grad.addColorStop(0, `rgba(255,255,255,${this.opacity})`);
+                grad.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(tailX, tailY);
+                ctx.stroke();
+            }
+        }
+
         function init() {
             particlesArray = [];
-            for (let i = 0; i < numberOfParticles; i++) {
-                particlesArray.push(new Particle());
-            }
+            for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
+            shootingStars = [];
+            for (let i = 0; i < 2; i++) shootingStars.push(new ShootingStar());
         }
 
         function connectParticles() {
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
-                    let dx = particlesArray[a].x - particlesArray[b].x;
-                    let dy = particlesArray[a].y - particlesArray[b].y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < maxDistance) {
-                        let opacityValue = 1 - (distance / maxDistance);
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacityValue * 0.18})`;
+                    const dx = particlesArray[a].x - particlesArray[b].x;
+                    const dy = particlesArray[a].y - particlesArray[b].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDistance) {
+                        const op = 1 - (dist / maxDistance);
+                        ctx.strokeStyle = `rgba(255,255,255,${op * 0.18})`;
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -562,21 +711,31 @@
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
+            particlesArray.forEach(p => { p.update(); p.draw(); });
             connectParticles();
+            shootingStars.forEach(s => { s.update(); s.draw(); });
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', function() {
-            setCanvasSize();
-            init();
-        });
+        // Mouse/touch tracking
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
+        }, { passive: true });
+        window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+
+        window.addEventListener('resize', () => { setCanvasSize(); init(); });
 
         init();
         animate();
+
+        // ==========================================================
+        //   9. HIDE LOADER
+        // ==========================================================
+        setTimeout(() => {
+            document.getElementById('loader').classList.add('hide');
+        }, 2000);
     </script>
 
 </body>
