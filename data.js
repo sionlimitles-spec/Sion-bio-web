@@ -16,11 +16,11 @@ const LINK_DATA = {
     },
     // 5 video, dipilih acak setiap buka / balik ke web
     videoUrls: [
-    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/spanduk/banner01.mp4",
-    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/spanduk/banner02.mp4",
-    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/spanduk/banner03.mp4",
-    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/spanduk/banner04.mp4",
-    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/spanduk/banner05.mp4"
+    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/banner/banner01.mp4",
+    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/banner/banner02.mp4",
+    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/banner/banner03.mp4",
+    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/banner/banner04.mp4",
+    "https://raw.githubusercontent.com/sionlimitles-spec/shiriuka-database01/main/banner/banner05.mp4"
 ],
     links: [
         {
