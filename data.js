@@ -24,7 +24,6 @@ const LINK_DATA = {
     // icon: bisa emoji (🎵 🔗 💰) atau link gambar
     links: [
         { name: "TIKTOK YOU", url: "https://www.mediafire.com/file/q0ayd515477cywm/TikTok_You-4.4-(46.8.3)+(1).apk/file", icon: "🎵" },
-        { name: "LINK KEDUA", url: "https://youtube.com", icon: "🔗" },
-        { name: "LINK KETIGA", url: "https://github.com", icon: "⭐" }
+        
     ]
 };
