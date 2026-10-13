@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bio Link</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -21,9 +22,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
         }
 
+        /* --- CANVAS PARTIKEL --- */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -34,7 +35,7 @@
             pointer-events: none;
         }
 
-        /* TOP NAV */
+        /* --- TOP NAV --- */
         .top-nav {
             position: fixed;
             top: 0;
@@ -45,8 +46,8 @@
             padding: 15px 20px;
             z-index: 10;
             background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .nav-content {
@@ -70,27 +71,12 @@
 
         .search-box:focus-within {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255,255,255,0.15);
         }
 
-        .search-box svg {
-            width: 18px;
-            height: 18px;
-            fill: #a1a1aa;
-            margin-right: 10px;
-            flex-shrink: 0;
-        }
-
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            outline: none;
-            width: 100%;
-            font-size: 14px;
-        }
-
+        .search-box svg { width: 18px; height: 18px; fill: #a1a1aa; margin-right: 10px; flex-shrink: 0; }
+        .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 14px; }
         .search-box input::placeholder { color: #71717a; }
 
         .menu-btn {
@@ -107,14 +93,10 @@
             flex-shrink: 0;
         }
 
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
-        }
-
+        .menu-btn:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05) rotate(90deg); }
         .menu-btn svg { width: 20px; height: 20px; fill: #fff; }
 
-        /* KONTAINER UTAMA */
+        /* --- KONTAINER --- */
         .container {
             position: relative;
             z-index: 1;
@@ -124,10 +106,10 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
-            animation: fadeIn 1.2s ease-out;
+            animation: fadeIn 1s ease-out;
         }
 
-        /* VIDEO */
+        /* --- VIDEO --- */
         .video-wrapper {
             width: 100%;
             height: 220px;
@@ -135,40 +117,53 @@
             overflow: hidden;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255,255,255,0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255,255,255,0.08);
             background: #111;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent, rgba(255,255,255,0.3), transparent);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: borderGlow 4s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .video-wrapper:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255,255,255,0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255,255,255,0.2);
         }
 
         .video-wrapper video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%) contrast(1.2) brightness(0.8);
+            filter: none;
             transition: all 0.5s ease;
         }
 
-        .video-wrapper:hover video {
-            filter: grayscale(0%) contrast(1) brightness(1);
-            transform: scale(1.05);
-        }
+        .video-wrapper:hover video { transform: scale(1.05); }
 
         .video-overlay {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
+            bottom: 0; left: 0;
+            width: 100%; height: 60%;
             background: linear-gradient(to top, #050505, transparent);
             pointer-events: none;
         }
 
-        /* TOMBOL LINK */
+        /* --- LINKS --- */
         .links {
             width: 100%;
             display: flex;
@@ -181,47 +176,136 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 18px;
+            padding: 18px 24px;
             background: linear-gradient(145deg, #111111, #1a1a1a);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 50px;
             color: #ffffff;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 15px;
             letter-spacing: 1px;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 10px 20px rgba(0,0,0,0.5);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            animation: fadeIn 0.6s ease-out backwards;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out backwards;
+            user-select: none;
         }
 
+        .btn .btn-text {
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* Efek Shine / Kilauan yang bergerak */
         .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.7s ease;
+            z-index: 1;
+        }
+
+        .btn:hover::before { left: 150%; }
+
+        /* Border glow */
+        .btn::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50px;
             padding: 2px;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.5), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             opacity: 0;
             transition: opacity 0.4s ease;
+            z-index: 2;
         }
 
-        .btn:hover::before { opacity: 1; }
+        .btn:hover::after { opacity: 1; }
 
         .btn:hover {
             background: linear-gradient(145deg, #ffffff, #d4d4d8);
             color: #000000;
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.15);
             border-color: transparent;
         }
 
+        /* --- STATE: CONFIRM (Klik Pertama) --- */
+        .btn.confirm {
+            background: linear-gradient(145deg, #ffffff, #e5e5e5) !important;
+            color: #000000 !important;
+            border-color: #ffffff !important;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+            transform: scale(1.03) !important;
+            animation: shakeConfirm 0.5s ease;
+        }
+
+        @keyframes shakeConfirm {
+            0%, 100% { transform: scale(1.03) translateX(0); }
+            20% { transform: scale(1.03) translateX(-4px); }
+            40% { transform: scale(1.03) translateX(4px); }
+            60% { transform: scale(1.03) translateX(-3px); }
+            80% { transform: scale(1.03) translateX(3px); }
+        }
+
+        /* --- RIPPLE EFFECT --- */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            transform: scale(0);
+            animation: rippleAnim 0.7s ease-out;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes rippleAnim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* --- TOAST NOTIFICATION --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255, 255, 255, 0.95);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* --- ANIMASI --- */
         @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
@@ -245,7 +329,7 @@
                 <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 <input type="text" id="searchInput" placeholder="Cari link...">
             </div>
-            <div class="menu-btn">
+            <div class="menu-btn" id="menuBtn">
                 <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
             </div>
         </div>
@@ -259,34 +343,132 @@
         <div class="links" id="linksContainer"></div>
     </div>
 
-    <!-- LOAD DATA -->
+    <!-- TOAST -->
+    <div class="toast" id="toast">Klik sekali lagi untuk membuka 🔗</div>
+
     <script src="data.js"></script>
 
-    <!-- SCRIPT RENDER & ANIMASI -->
     <script>
-        // 1. Render Video dari data.js
+        // ==========================================
+        //   1. AUDIO KLIK (Dibuat pakai Web Audio API)
+        // ==========================================
+        let audioCtx = null;
+        function playClickSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.15);
+            } catch(e) { console.log('Audio error:', e); }
+        }
+
+        function playConfirmSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                [0, 0.08].forEach((delay, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(i === 0 ? 1200 : 1600, audioCtx.currentTime + delay);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime + delay);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + 0.1);
+                    osc.start(audioCtx.currentTime + delay);
+                    osc.stop(audioCtx.currentTime + delay + 0.1);
+                });
+            } catch(e) { console.log('Audio error:', e); }
+        }
+
+        // ==========================================
+        //   2. RENDER VIDEO & LINK DARI data.js
+        // ==========================================
         const videoEl = document.getElementById('mainVideo');
         const sourceEl = document.createElement('source');
         sourceEl.src = LINK_DATA.videoUrl;
         sourceEl.type = 'video/mp4';
         videoEl.appendChild(sourceEl);
 
-        // 2. Render Tombol dari data.js
         const linksContainer = document.getElementById('linksContainer');
+        const toast = document.getElementById('toast');
+
         LINK_DATA.links.forEach((link, index) => {
             const a = document.createElement('a');
             a.href = link.url;
             a.target = '_blank';
+            a.rel = 'noopener noreferrer';
             a.className = 'btn';
-            a.textContent = link.name;
-            // Animasi muncul berurutan
-            a.style.animationDelay = (0.3 + (index * 0.1)) + 's';
-            // Simpan nama untuk fungsi pencarian
             a.dataset.name = link.name.toLowerCase();
+            a.style.animationDelay = (0.3 + (index * 0.1)) + 's';
+
+            const span = document.createElement('span');
+            span.className = 'btn-text';
+            span.textContent = link.name;
+            a.appendChild(span);
+
+            // --- SISTEM KLIK 2X ---
+            let confirmState = false;
+            let resetTimer = null;
+            let originalText = link.name;
+
+            a.addEventListener('click', function(e) {
+                // Jika belum confirm, tahan klik pertama
+                if (!confirmState) {
+                    e.preventDefault();
+                    confirmState = true;
+
+                    // Efek suara
+                    playClickSound();
+
+                    // Ripple effect di posisi klik
+                    const rect = a.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (x - size/2) + 'px';
+                    ripple.style.top = (y - size/2) + 'px';
+                    a.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 700);
+
+                    // Ubah tampilan
+                    a.classList.add('confirm');
+                    span.textContent = '⚠️ KLIK LAGI UNTUK BUKA';
+                    toast.classList.add('show');
+
+                    // Auto reset kalau gak diklik lagi
+                    clearTimeout(resetTimer);
+                    resetTimer = setTimeout(() => {
+                        confirmState = false;
+                        a.classList.remove('confirm');
+                        span.textContent = originalText;
+                        toast.classList.remove('show');
+                    }, 3000);
+
+                } else {
+                    // Klik kedua: buka link
+                    playConfirmSound();
+                    toast.classList.remove('show');
+                    // Biarkan browser membuka link secara natural (target _blank)
+                }
+            });
+
             linksContainer.appendChild(a);
         });
 
-        // 3. Fitur Search (Filter tombol)
+        // ==========================================
+        //   3. FITUR SEARCH
+        // ==========================================
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const keyword = e.target.value.toLowerCase();
             const buttons = document.querySelectorAll('.btn');
@@ -300,13 +482,20 @@
         });
 
         // ==========================================
-        //   ANIMASI PARTIKEL JARINGAN (CANVAS)
+        //   4. MENU BUTTON (Scroll to top)
+        // ==========================================
+        document.getElementById('menuBtn').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ==========================================
+        //   5. ANIMASI PARTIKEL
         // ==========================================
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
-        const numberOfParticles = 70;
-        const maxDistance = 120;
+        const numberOfParticles = 90;
+        const maxDistance = 130;
 
         function setCanvasSize() {
             canvas.width = window.innerWidth;
@@ -318,10 +507,11 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 0.8 - 0.4;
-                this.speedY = Math.random() * 0.8 - 0.4;
-                this.opacity = Math.random() * 0.5 + 0.2;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.glow = Math.random() > 0.8; // 20% partikel jadi glowing
             }
             update() {
                 this.x += this.speedX;
@@ -330,10 +520,17 @@
                 if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
             }
             draw() {
+                if (this.glow) {
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = 'rgba(255,255,255,0.8)';
+                } else {
+                    ctx.shadowBlur = 0;
+                }
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
 
@@ -352,7 +549,7 @@
                     let distance = Math.sqrt(dx * dx + dy * dy);
                     if (distance < maxDistance) {
                         let opacityValue = 1 - (distance / maxDistance);
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacityValue * 0.15})`;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacityValue * 0.18})`;
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -383,4 +580,4 @@
     </script>
 
 </body>
-  </html>
+    </html>
