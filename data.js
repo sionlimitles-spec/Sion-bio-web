@@ -4,7 +4,7 @@
 
 const LINK_DATA = {
     // 1. Link Video (harus .mp4)
-    videoUrl: "https://d.top4top.io/m_3938niq360.mp4",
+    videoUrl: "https://h.top4top.io/m_3938u7n460.mp4",
 
     // 2. Daftar Link Tombol
     // Cara nambah: copy satu baris, taruh di atas tanda ] dan kasih koma
