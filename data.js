@@ -14,7 +14,14 @@ const LINK_DATA = {
         bio: "Welcome to my link ✦",
         typing: true
     },
-    videoUrl: "https://h.top4top.io/m_3938u7n460.mp4",
+    // 5 video, dipilih acak setiap buka / balik ke web
+    videoUrls: [
+        "https://sion-bio-web.pages.dev/bg1.mp4",
+        "https://sion-bio-web.pages.dev/bg2.mp4",
+        "https://sion-bio-web.pages.dev/bg3.mp4",
+        "https://sion-bio-web.pages.dev/bg4.mp4",
+        "https://sion-bio-web.pages.dev/bg5.mp4"
+    ],
     links: [
         {
             name: "TIKTOK YOU",
