@@ -20,7 +20,7 @@ const LINK_DATA = {
             name: "TIKTOK YOU",
             url: "https://www.mediafire.com/file/q0ayd515477cywm/TikTok_You-4.4-(46.8.3)+(1).apk/file",
             icon: "https://d.top4top.io/p_39389vhb90.png",
-            version: "v4.4 (46.8.3) • MOD",
+            version: "v4.4(46.8.3) • MOD",
             badge: "NEW"
         }
     ]
